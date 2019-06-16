@@ -9,8 +9,8 @@ namespace Domain.InputService
     {
         public override void InstallBindings()
         {
-            Container.Bind<IInputSystem>().To(typeof(UnityMobileInputSystem));
-            Container.Bind<IInputHandler>().To(typeof(InputHandler), typeof(ITickable));
+            Container.Bind<IInputSystem>().To(typeof(TouchKitInputSystem));
+            Container.Bind<IInputHandler>().To(typeof(InputHandler));
         }
     }
 }

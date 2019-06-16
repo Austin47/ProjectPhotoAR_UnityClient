@@ -6,22 +6,34 @@ using Zenject;
 
 namespace Domain.InputService
 {
-    public class InputHandler : IInputHandler, ITickable
+    public class InputHandler : IInputHandler, IDisposable
     {
         private IInputSystem inputSystem;
 
         public event Action<Vector2> OnTouchPos1;
-        public event Action<Vector2> OnTouch;
+        public event Action<Vector2> OnTap;
 
         [Inject]
         private void Construct(IInputSystem inputSystem)
         {
             this.inputSystem = inputSystem;
+            Subscribe();
         }
 
-        public void Tick()
+        private void Subscribe()
         {
-            if (!inputSystem.IsTouching) return;
+            inputSystem.OnTap += CallOnTap;
+        }
+
+        public void Dispose()
+        {
+            inputSystem.OnTap -= CallOnTap;
+        }
+
+        public void CallOnTap(Vector2 pos)
+        {
+            var handler = OnTap;
+            if (handler != null) handler(pos);
         }
     }
 }

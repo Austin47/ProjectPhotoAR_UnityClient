@@ -7,7 +7,7 @@ namespace Domain.InputService
 {
     public interface IInputHandler
     {
-        event Action<Vector2> OnTouch;
+        event Action<Vector2> OnTap;
     }
 }
 
