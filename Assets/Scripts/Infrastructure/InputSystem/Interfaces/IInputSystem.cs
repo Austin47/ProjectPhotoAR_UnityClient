@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Domain.InputService
+namespace Infrastructure.InputService
 {
-    public interface IInputHandler
+    public interface IInputSystem
     {
         event Action<Vector2> OnTap;
     }

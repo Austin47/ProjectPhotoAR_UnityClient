@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Zenject;
 
-namespace Domain.InputService.Tests
+namespace Infrastructure.InputService.Tests
 {
     public class InputHandlerTest
     {

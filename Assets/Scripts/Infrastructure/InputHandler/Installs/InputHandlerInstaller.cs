@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-namespace Domain.InputService
+namespace Infrastructure.InputService
 {
     public class InputHandlerInstaller : MonoInstaller
     {
