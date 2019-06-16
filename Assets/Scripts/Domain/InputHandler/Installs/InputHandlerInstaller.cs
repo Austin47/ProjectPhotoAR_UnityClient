@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -9,8 +10,8 @@ namespace Domain.InputService
     {
         public override void InstallBindings()
         {
-            Container.Bind<IInputSystem>().To(typeof(TouchKitInputSystem));
-            Container.Bind<IInputHandler>().To(typeof(InputHandler));
+            Container.Bind<IInputSystem>().To(typeof(TouchKitInputSystem)).AsSingle();
+            Container.Bind(typeof(IInputHandler), typeof(IDisposable)).To(typeof(InputHandler)).AsSingle();
         }
     }
 }
