@@ -87,7 +87,7 @@ namespace Infrastructure.EditorHelpers
                 outfile.WriteLine("    {");
                 outfile.WriteLine("        public override void InstallBindings()");
                 outfile.WriteLine("        {");
-                outfile.WriteLine($"            Container.Bind(typeof(I{name})).To(typeof({name}));");
+                outfile.WriteLine($"            Container.Bind(typeof(I{name})).To(typeof({name})).AsSingle();");
                 outfile.WriteLine("        }");
                 outfile.WriteLine("    }");
                 outfile.WriteLine("}");
