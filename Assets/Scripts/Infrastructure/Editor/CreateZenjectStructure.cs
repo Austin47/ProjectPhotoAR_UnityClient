@@ -158,7 +158,7 @@ namespace Infrastructure.EditorHelpers
                 outfile.WriteLine("");
                 outfile.WriteLine($"namespace {nameSpace}.Tests");
                 outfile.WriteLine("{");
-                outfile.WriteLine($"    public class {name}");
+                outfile.WriteLine($"    public class {nameC}");
                 outfile.WriteLine("    {");
                 outfile.WriteLine("        private DiContainer container;");
                 outfile.WriteLine("        ");
