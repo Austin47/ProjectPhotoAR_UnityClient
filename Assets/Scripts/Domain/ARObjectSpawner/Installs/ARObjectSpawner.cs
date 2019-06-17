@@ -3,7 +3,7 @@ using System;
 using Infrastructure.InputService;
 using Zenject;
 
-namespace Domain.ARObjectSpawner
+namespace Domain.ARObjectSpawnService
 {
     public class ARObjectSpawner : IARObjectSpawner, IInitializable, IDisposable
     {

@@ -3,7 +3,7 @@ using Presentation.ARObjectSpawner;
 using UnityEngine;
 using Zenject;
 
-namespace Domain.ARObjectSpawner
+namespace Domain.ARObjectSpawnService
 {
     public class ARObjectSpawnerInstaller : MonoInstaller 
     {

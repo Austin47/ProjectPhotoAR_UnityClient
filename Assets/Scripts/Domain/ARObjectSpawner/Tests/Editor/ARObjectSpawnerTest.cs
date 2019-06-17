@@ -2,7 +2,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Zenject;
 
-namespace Domain.ARObjectSpawner.Tests
+namespace Domain.ARObjectSpawnService.Tests
 {
     public class ARObjectSpawner
     {
