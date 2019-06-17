@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+
 
 namespace Infrastructure.InputService
 {
@@ -10,7 +9,6 @@ namespace Infrastructure.InputService
     {
         private IInputSystem inputSystem;
 
-        public event Action<Vector2> OnTouchPos1;
         public event Action<Vector2> OnTap;
 
         [Inject]
