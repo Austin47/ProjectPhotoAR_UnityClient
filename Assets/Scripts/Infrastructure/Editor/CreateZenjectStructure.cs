@@ -71,8 +71,8 @@ namespace Infrastructure.EditorHelpers
 
         private static void MakeInstallerScript(string name, string nameSpace, string path)
         {
-            name = $"{name}Installer";
-            string combinedPath = CombinePath(name, path);
+            var nameC = $"{name}Installer";
+            string combinedPath = CombinePath(nameC, path);
 
             if (File.Exists(combinedPath)) return;
 
@@ -83,8 +83,12 @@ namespace Infrastructure.EditorHelpers
                 outfile.WriteLine("");
                 outfile.WriteLine($"namespace {nameSpace}");
                 outfile.WriteLine("{");
-                outfile.WriteLine($"    public class {name} : MonoInstaller ");
+                outfile.WriteLine($"    public class {nameC} : MonoInstaller ");
                 outfile.WriteLine("    {");
+                outfile.WriteLine("        public override void InstallBindings()");
+                outfile.WriteLine("        {");
+                outfile.WriteLine($"            Container.Bind(typeof(I{name})).To(typeof({name}));");
+                outfile.WriteLine("        }");
                 outfile.WriteLine("    }");
                 outfile.WriteLine("}");
                 outfile.WriteLine("");
@@ -106,6 +110,7 @@ namespace Infrastructure.EditorHelpers
                 outfile.WriteLine("{");
                 outfile.WriteLine($"    public class {name} : I{name} ");
                 outfile.WriteLine("    {");
+                outfile.WriteLine("        ");
                 outfile.WriteLine("    }");
                 outfile.WriteLine("}");
                 outfile.WriteLine("");
@@ -128,6 +133,7 @@ namespace Infrastructure.EditorHelpers
                 outfile.WriteLine("{");
                 outfile.WriteLine($"    public interface {name}");
                 outfile.WriteLine("    {");
+                outfile.WriteLine("        ");
                 outfile.WriteLine("    }");
                 outfile.WriteLine("}");
                 outfile.WriteLine("");
@@ -137,20 +143,50 @@ namespace Infrastructure.EditorHelpers
 
         private static void MakeTestScript(string name, string nameSpace, string path)
         {
-            name = $"{name}Test";
-            string combinedPath = CombinePath(name, path);
+            var nameC = $"{name}Test";
+            string combinedPath = CombinePath(nameC, path);
+            string nameLowerCase = char.ToLower(name[0]) + name.Substring(1);
 
             if (File.Exists(combinedPath)) return;
 
             using (StreamWriter outfile =
                 new StreamWriter(combinedPath))
             {
+                outfile.WriteLine("using NSubstitute;");
+                outfile.WriteLine("using NUnit.Framework;");
                 outfile.WriteLine("using Zenject;");
                 outfile.WriteLine("");
                 outfile.WriteLine($"namespace {nameSpace}.Tests");
                 outfile.WriteLine("{");
                 outfile.WriteLine($"    public class {name}");
                 outfile.WriteLine("    {");
+                outfile.WriteLine("        private DiContainer container;");
+                outfile.WriteLine("        ");
+                outfile.WriteLine($"        private {name} {nameLowerCase};");
+                outfile.WriteLine("        ");
+                outfile.WriteLine("        [Inject]");
+                outfile.WriteLine($"        private void Construct({name} {nameLowerCase})");
+                outfile.WriteLine("        {");
+                outfile.WriteLine($"            this.{nameLowerCase} = {nameLowerCase};");
+                outfile.WriteLine("        }");
+                outfile.WriteLine("        ");
+                outfile.WriteLine("        [SetUp]");
+                outfile.WriteLine("        public void SetUp()");
+                outfile.WriteLine("        {");
+                outfile.WriteLine("            container = new DiContainer();");
+                outfile.WriteLine($"            container.Bind<{name}>().AsSingle();");
+                outfile.WriteLine("            container.Inject(this);");
+                outfile.WriteLine("        }");
+                outfile.WriteLine("        ");
+                outfile.WriteLine("        [Test]");
+                outfile.WriteLine("        public void Test()");
+                outfile.WriteLine("        {");
+                outfile.WriteLine("            // Arrange");
+                outfile.WriteLine("            ");
+                outfile.WriteLine("            // Act");
+                outfile.WriteLine("            ");
+                outfile.WriteLine("            // Assert");
+                outfile.WriteLine("        }");
                 outfile.WriteLine("    }");
                 outfile.WriteLine("}");
                 outfile.WriteLine("");
