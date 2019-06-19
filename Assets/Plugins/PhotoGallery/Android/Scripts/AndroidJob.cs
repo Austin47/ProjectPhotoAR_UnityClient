@@ -5,6 +5,7 @@ namespace PhotoGalleryService
     internal class AndroidJob
     {
         public bool IsFinished { get { return androidCallback.IsFinished; } }
+        public bool CallBackCalled { get; private set; }
         public AndroidCallback androidCallback;
         private Action action;
         private Action callback;
@@ -23,7 +24,9 @@ namespace PhotoGalleryService
 
         public void Finish()
         {
+            if(CallBackCalled) return;
             callback();
+            CallBackCalled = true;
         }
     }
 }

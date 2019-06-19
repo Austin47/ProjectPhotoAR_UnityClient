@@ -306,7 +306,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 134583339}
-        m_MethodName: PickPhoto
+        m_MethodName: UpdateImage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

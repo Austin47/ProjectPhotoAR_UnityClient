@@ -6,7 +6,7 @@ namespace PhotoGalleryService
 {
     public class AndroidPhotoGallery : IPhotoGallery
     {
-        private AndroidJob currentJob;
+        internal AndroidJob CurrentJob;
         private Queue<AndroidJob> jobs = new Queue<AndroidJob>();
 
         private AndroidCallbackHelper androidCallbackHelper;
@@ -23,6 +23,7 @@ namespace PhotoGalleryService
 
             GameObject helper = new GameObject("AndroidCallbackHelper");
             androidCallbackHelper = helper.AddComponent<AndroidCallbackHelper>();
+            androidCallbackHelper.SetPhotoGallery(this);
         }
 
         public void SelectPhotoPath(Action<string> callback)
@@ -56,11 +57,10 @@ namespace PhotoGalleryService
 
         internal void Dequeue()
         {
-            if (currentJob != null && !currentJob.IsFinished) return;
+            if (CurrentJob != null && !CurrentJob.IsFinished) return;
             if (jobs.Count <= 0) return;
-            currentJob = jobs.Dequeue();
-            androidCallbackHelper.WaitForJobFinish(currentJob);
-            currentJob.Execute();
+            CurrentJob = jobs.Dequeue();
+            CurrentJob.Execute();
         }
 
         // TODO: AT - Make async task
