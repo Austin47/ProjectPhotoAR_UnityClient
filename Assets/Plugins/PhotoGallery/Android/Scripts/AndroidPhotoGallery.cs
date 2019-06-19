@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PhotoGalleryService
@@ -40,7 +42,7 @@ namespace PhotoGalleryService
             AndroidCallback androidCallback = new AndroidCallback();
             AddJob(
                 execute: () => androidGallery.CallStatic("CallLoadPhoto", uri, context, androidCallback),
-                callback: () => callback(LoadPhoto(androidCallback.Result)),
+                callback: () => LoadPhotoAsync(androidCallback.Result, callback),
                 androidCallback: androidCallback);
         }
 
@@ -63,12 +65,25 @@ namespace PhotoGalleryService
             CurrentJob.Execute();
         }
 
-        // TODO: AT - Make async task
-        private Texture2D LoadPhoto(string imageBase64)
+        private void LoadPhotoAsync(string imageBase64, Action<Texture2D> callback)
         {
-            Texture2D text = new Texture2D(1, 1);
-            text.LoadImage(Convert.FromBase64String(imageBase64));
-            return text;
+            Task.Factory.StartNew(() =>
+            {
+                return LoadBase64Bytes(imageBase64);
+            }).Unwrap().ContinueWith(task =>
+            {
+                Texture2D text = new Texture2D(1, 1);
+                // TODO: AT - This action still causes a spike, need to find a way to optimize 
+                text.LoadImage(task.Result);
+                callback(text);
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async Task<byte[]> LoadBase64Bytes(string imageBase64)
+        {
+            byte[] b = new byte[] { };
+            await Task.Run(() => b = Convert.FromBase64String(imageBase64));
+            return b;
         }
     }
 }
