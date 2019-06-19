@@ -4,20 +4,35 @@ namespace PhotoGalleryService
 {
     internal class AndroidCallbackHelper : MonoBehaviour
     {
-        private AndroidJob Job { get { return androidPhotoGallery.CurrentJob; } }
+        private AndroidJob ForegroundJob { get { return androidPhotoGallery.CurrentForegroundJob; } }
+        private AndroidJob BackgroundJob { get { return androidPhotoGallery.CurrentBackgroundJob; } }
         private AndroidPhotoGallery androidPhotoGallery;
         // TODO: AT Create time out if IsFinished takes to long
         private void Update()
         {
-            if (Job == null) return;
-            if (!Job.IsFinished) return;
-            if (Job.CallBackCalled) return;
-            Finish();
+            CheckForegroundJob();
+            CheckBackgroundJob();
         }
 
-        private void Finish()
+        private void CheckForegroundJob()
         {
-            Job.Finish();
+            if (ForegroundJob == null) return;
+            if (!ForegroundJob.IsFinished) return;
+            if (ForegroundJob.CallbackCalled) return;
+            ForegroundJob.Finish();
+        }
+
+        private void CheckBackgroundJob()
+        {
+            if (BackgroundJob == null) return;
+            if (!BackgroundJob.IsFinished) return;
+            if (BackgroundJob.CallbackCalled) return;
+            BackgroundJobFinish();
+        }
+
+        private void BackgroundJobFinish()
+        {
+            BackgroundJob.Finish();
             androidPhotoGallery.Dequeue();
         }
 

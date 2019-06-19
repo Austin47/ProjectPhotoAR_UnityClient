@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -8,8 +7,9 @@ namespace PhotoGalleryService
 {
     public class AndroidPhotoGallery : IPhotoGallery
     {
-        internal AndroidJob CurrentJob;
-        private Queue<AndroidJob> jobs = new Queue<AndroidJob>();
+        internal AndroidJob CurrentBackgroundJob { get; private set; }
+        internal AndroidJob CurrentForegroundJob { get; private set; }
+        private Queue<AndroidJob> backgroundJobs = new Queue<AndroidJob>();
 
         private AndroidCallbackHelper androidCallbackHelper;
         private AndroidJavaObject androidGallery;
@@ -31,38 +31,54 @@ namespace PhotoGalleryService
         public void SelectPhotoPath(Action<string> callback)
         {
             AndroidCallback androidCallback = new AndroidCallback();
-            AddJob(
+            AddForegroundJob(
                 execute: () => androidGallery.CallStatic("CallPickPhoto", context, androidCallback),
                 callback: () => callback(androidCallback.Result),
                 androidCallback: androidCallback);
         }
 
+        private void AddForegroundJob(Action execute, Action callback, AndroidCallback androidCallback)
+        {
+            if (CurrentBackgroundJob != null && !CurrentForegroundJob.CallbackCalled)
+            {
+                Debug.LogError("AndroidPhotoGallery: There can only be one foreground task at a time");
+                return;
+            };
+            AndroidJob job = new AndroidJob(
+                action: execute,
+                androidCallback: androidCallback,
+                callback: callback);
+
+            CurrentForegroundJob = job;
+            job.Execute();
+        }
+
         public void LoadPhoto(string uri, Action<Texture2D> callback)
         {
             AndroidCallback androidCallback = new AndroidCallback();
-            AddJob(
+            AddBackgroundJob(
                 execute: () => androidGallery.CallStatic("CallLoadPhoto", uri, context, androidCallback),
                 callback: () => LoadPhotoAsync(androidCallback.Result, callback),
                 androidCallback: androidCallback);
         }
 
-        private void AddJob(Action execute, Action callback, AndroidCallback androidCallback)
+        private void AddBackgroundJob(Action execute, Action callback, AndroidCallback androidCallback)
         {
             AndroidJob job = new AndroidJob(
                 action: execute,
                 androidCallback: androidCallback,
                 callback: callback);
 
-            jobs.Enqueue(job);
+            backgroundJobs.Enqueue(job);
             Dequeue();
         }
 
         internal void Dequeue()
         {
-            if (CurrentJob != null && !CurrentJob.IsFinished) return;
-            if (jobs.Count <= 0) return;
-            CurrentJob = jobs.Dequeue();
-            CurrentJob.Execute();
+            if (CurrentBackgroundJob != null && !CurrentBackgroundJob.CallbackCalled) return;
+            if (backgroundJobs.Count <= 0) return;
+            CurrentBackgroundJob = backgroundJobs.Dequeue();
+            CurrentBackgroundJob.Execute();
         }
 
         private void LoadPhotoAsync(string imageBase64, Action<Texture2D> callback)
