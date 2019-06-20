@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PhotoGalleryService
 {
@@ -33,7 +35,11 @@ namespace PhotoGalleryService
             AndroidCallback androidCallback = new AndroidCallback();
             AddForegroundJob(
                 execute: () => androidGallery.CallStatic("CallPickPhoto", context, androidCallback),
-                callback: () => callback(androidCallback.Result),
+                callback: () =>
+                {
+                    Debug.Log($"AndroidGallery finished SelectPhotoPath call with result {androidCallback.Result}");
+                    callback(androidCallback.Result);
+                },
                 androidCallback: androidCallback);
         }
 
@@ -58,7 +64,11 @@ namespace PhotoGalleryService
             AndroidCallback androidCallback = new AndroidCallback();
             AddBackgroundJob(
                 execute: () => androidGallery.CallStatic("CallLoadPhoto", uri, context, androidCallback),
-                callback: () => LoadPhotoAsync(androidCallback.Result, callback),
+                callback: () =>
+                {
+                    Debug.Log($"AndroidGallery finished LoadPhoto call with result {androidCallback.Result}");
+                    androidCallbackHelper.StartCoroutine(GetText(androidCallback.Result, callback));
+                },
                 androidCallback: androidCallback);
         }
 
@@ -100,6 +110,29 @@ namespace PhotoGalleryService
             byte[] b = new byte[] { };
             await Task.Run(() => b = Convert.FromBase64String(imageBase64));
             return b;
+        }
+
+        private IEnumerator GetText(string path, Action<Texture2D> callback)
+        {
+            var url = $"file://{path}";
+            Debug.Log($"AndroidGallery: GetText: : Application.persistentDataPath = {Application.persistentDataPath}");
+            Debug.Log($"AndroidGallery: GetText: path = {path}");
+            Debug.Log($"AndroidGallery: GetText: Attempting to get texture at: {url}");
+            using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return uwr.SendWebRequest();
+
+                if (uwr.isNetworkError || uwr.isHttpError)
+                {
+                    Debug.LogError($"AndroidGallery: GetText: {uwr.error}");
+                }
+                else
+                {
+                    // Get downloaded asset bundle
+                    var text = DownloadHandlerTexture.GetContent(uwr);
+                    callback(text);
+                }
+            }
         }
     }
 }
