@@ -33,9 +33,10 @@ namespace Domain.LayoutHandlerService
                 return;
             }
 
-            for (int i = 0; i < layouts.Count; i++)
+            var count = layouts.Count;
+            for (int i = 0; i < count; i++)
             {
-                if (layout.Order <= layouts.Peek().Order)
+                if (layout.Order > layouts.Peek().Order)
                 {
                     AddLayout(layout);
                     return;

@@ -103,6 +103,32 @@ namespace Domain.LayoutHandlerService.Tests
             // Assert
             Assert.AreEqual(layout4, layoutHandler.TopLayout);
         }
+
+        [Test]
+        public void GoBack_Pass_1()
+        {
+            // Arrange
+            ILayoutEntity defaultLayout = Substitute.For<ILayoutEntity>();
+            layoutHandler.SetDefaultLayout(defaultLayout);
+            ILayoutEntity layout1 = Substitute.For<ILayoutEntity>();
+            layout1.Order.Returns(1);
+            ILayoutEntity layout2 = Substitute.For<ILayoutEntity>();
+            layout2.Order.Returns(2);
+            ILayoutEntity layout3 = Substitute.For<ILayoutEntity>();
+            layout3.Order.Returns(3);
+            ILayoutEntity layout4 = Substitute.For<ILayoutEntity>();
+            layout4.Order.Returns(2);
+
+            // Act
+            layoutHandler.ShowLayout(layout1);
+            layoutHandler.ShowLayout(layout2);
+            layoutHandler.ShowLayout(layout3);
+            layoutHandler.ShowLayout(layout4);
+            layoutHandler.GoBack();
+
+            // Assert
+            Assert.AreEqual(layout1, layoutHandler.TopLayout);
+        }
     }
 }
 
