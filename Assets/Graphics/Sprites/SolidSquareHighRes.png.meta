@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bc826c56a86644d77b979f2632c4f3eb
+guid: babd2ee76de86463b9f7b1cb19919717
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -60,7 +60,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -71,7 +71,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -82,7 +82,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: iPhone
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -93,7 +93,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -104,7 +104,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: WebGL
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -119,7 +119,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2f0b339fdd1df42f68433a100fa32db3
+    spriteID: dbbebdcd87f3348fda4acaceb74a7c90
     internalID: 0
     vertices: []
     indices: 
