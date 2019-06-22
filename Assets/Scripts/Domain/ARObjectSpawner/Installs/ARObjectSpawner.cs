@@ -7,7 +7,7 @@ namespace Domain.ARObjectSpawnService
 {
     public class ARObjectSpawner : IARObjectSpawner
     {
-        private const int SPAWN_DISTANCE = 2;
+        private const float SPAWN_DISTANCE = .5f;
 
         private ARObjectPool aRObjectPool;
         private IRaycastSystem raycastSystem;
@@ -23,10 +23,16 @@ namespace Domain.ARObjectSpawnService
 
         public void Spawn(Texture2D texture)
         {
-            Vector3 spawnPoint = Camera.main.transform.forward * SPAWN_DISTANCE;
-            //if(!raycastSystem.TryTouchPosToARPlane(new Vector2(), out spawnPoint)) return;
+            Vector3 spawnPoint = Vector3.zero;
+            if (!raycastSystem.TryTouchPosToARPlane(CenterOfScreen(), out spawnPoint))
+                spawnPoint = Camera.main.transform.forward * SPAWN_DISTANCE;
             var clone = aRObjectPool.Spawn();
             clone.Configure(spawnPoint, texture);
+        }
+
+        private Vector2 CenterOfScreen()
+        {
+            return new Vector2(Screen.width / 2, Screen.height / 2);
         }
     }
 }
