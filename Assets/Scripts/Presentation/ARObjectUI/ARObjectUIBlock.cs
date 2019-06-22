@@ -1,4 +1,6 @@
 ﻿using Domain.ARObjectDatabaseService;
+using Domain.ARObjectSpawnService;
+using Domain.LayoutHandlerService;
 using Infrastructure.DatabaseService;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,17 +15,24 @@ namespace Presentation.ARObjectUI
         [SerializeField]
         private RawImage image;
 
+        private IARObjectSpawner aRObjectSpawner;
         private IDatabase database;
+        private ILayoutHandler layoutHandler;
 
         [Inject]
-        private void Construct(IDatabase database)
+        private void Construct(
+            IARObjectSpawner aRObjectSpawner,
+            IDatabase database,
+            ILayoutHandler layoutHandler)
         {
+            this.aRObjectSpawner = aRObjectSpawner;
             this.database = database;
+            this.layoutHandler = layoutHandler;
         }
 
         private void Awake()
         {
-            //defaultImageSize = image.rectTransform.sizeDelta.x;
+            defaultImageSize = image.rectTransform.rect.width;
         }
 
         public void Configure(Transform root, ARObjectData data)
@@ -45,6 +54,12 @@ namespace Presentation.ARObjectUI
             var size = textureSize.GetEnvelopeToValue(defaultImageSize);
             image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
             image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+        }
+
+        public void SpawnObject()
+        {
+            aRObjectSpawner.Spawn((Texture2D) image.texture);
+            layoutHandler.GoBack();
         }
     }
 }
