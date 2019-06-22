@@ -9,13 +9,15 @@ namespace Domain.ARObjectSpawnService
     {
         [SerializeField]
         private GameObject prefab;
+        [SerializeField]
+        private Transform root;
 
         public override void InstallBindings()
         {
             Container.Bind(typeof(IARObjectSpawner)).To(typeof(ARObjectSpawner)).AsSingle();
             // TODO: AT - we generally never want to access a Presentation element in the domain, possibly find a way around this
             // Swap out StandardARObject to spawn a different type
-            Container.BindMemoryPool<IARObject, ARObjectPool>().To<StandardARObject>().FromComponentInNewPrefab(prefab);
+            Container.BindMemoryPool<IARObject, ARObjectPool>().To<StandardARObject>().FromComponentInNewPrefab(prefab).UnderTransform(root);
         }
     }
 }

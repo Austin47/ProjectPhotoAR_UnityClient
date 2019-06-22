@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Domain.ARObjectSpawnService;
+﻿using Domain.ARObjectSpawnService;
 using UnityEngine;
-using Zenject;
 
 namespace Presentation.ARObjectSpawner
 {
     public class StandardARObject : MonoBehaviour, IARObject
     {
-        public void Configure(Vector3 pos, Texture2D text)
+        [SerializeField]
+        private MeshRenderer rend;
+
+        public void Configure(Vector3 pos, Texture2D texture)
         {
             transform.position = pos;
+            rend.material.mainTexture = texture;
+
+            var textureSize = new Vector2(texture.width, texture.height);
+            var scale = textureSize.GetEnvelopeToValue(1);
+            rend.transform.localScale = new Vector3(scale.x, scale.y, 1);
         }
     }
 }
