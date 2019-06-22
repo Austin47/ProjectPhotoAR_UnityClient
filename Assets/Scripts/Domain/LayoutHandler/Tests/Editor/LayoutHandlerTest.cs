@@ -49,6 +49,8 @@ namespace Domain.LayoutHandlerService.Tests
             layoutHandler.SetDefaultLayout(Substitute.For<ILayoutEntity>());
 
             // Assert
+            // TODO: AT - this detects an error that should be logged in SetDefaultLayout
+            // But it also logs it, this lets us know the test is passing, but its very confusing
             LogAssert.Expect(UnityEngine.LogType.Error, "LayoutHandler: SetDefaultLayout: defaultLayout has already been set!");
         }
 
