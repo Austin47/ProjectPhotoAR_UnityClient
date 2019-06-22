@@ -12,6 +12,21 @@ namespace Infrastructure.DatabaseService
     {
         private ICoroutineRunner coroutineRunner;
 
+        private string FileHeader
+        {
+            get
+            {
+#if UNITY_EDITOR
+            return "file://";
+#elif UNITY_ANDROID
+            return string.Empty;
+#else
+            // TODO: AT - might something else for ios
+            return string.Empty;
+#endif
+            }
+        }
+
         [Inject]
         private void Construct(ICoroutineRunner coroutineRunner)
         {
@@ -20,13 +35,20 @@ namespace Infrastructure.DatabaseService
 
         public void Load<T>(string url, Action<T> callback)
         {
-#if UNITY_EDITOR
-            string dataAsJson = File.ReadAllText(url);
-            var data = JsonUtility.FromJson<T>(dataAsJson);
-            callback(data);
-#else
-            coroutineRunner.RunCoroutine(LoadAsync<T>(url, callback));
-#endif
+            coroutineRunner.RunCoroutine(LoadAsync<T>($"{FileHeader}{url}", callback));
+        }
+
+        public void LoadDefaultTexture(string url, Action<Texture2D> callback)
+        {
+            // TODO: Still Noticeable lag spikes while loading
+            string path = $"{FileHeader}{Application.streamingAssetsPath}/{url}";
+            coroutineRunner.RunCoroutine(GetTexture(path, callback));
+        }
+
+        public void LoadCustomTexture(string url, Action<Texture2D> callback)
+        {
+            // TODO: AT - Use AndroidPhotoGallery
+            throw new NotImplementedException();
         }
 
         public void Save<T>(string url)
@@ -34,15 +56,15 @@ namespace Infrastructure.DatabaseService
             throw new NotImplementedException();
         }
 
-        private IEnumerator LoadAsync<T>(string uri, Action<T> callback)
+        private IEnumerator LoadAsync<T>(string url, Action<T> callback)
         {
-            using (UnityWebRequest uwr = UnityWebRequest.Get(uri))
+            using (UnityWebRequest uwr = UnityWebRequest.Get(url))
             {
                 yield return uwr.SendWebRequest();
 
                 if (uwr.isNetworkError || uwr.isHttpError)
                 {
-                    Debug.LogError($"LocalJsonDatabase: LoadAsync: {uwr.error}");
+                    Debug.LogError($"LocalJsonDatabase: LoadAsync: Url: {url} Error: {uwr.error}");
                 }
                 else
                 {
@@ -50,6 +72,25 @@ namespace Infrastructure.DatabaseService
                     // TODO: what if this is null? is this a problem?
                     var data = JsonUtility.FromJson<T>(text);
                     callback(data);
+                }
+            }
+        }
+
+        private IEnumerator GetTexture(string url, Action<Texture2D> callback)
+        {
+            using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return uwr.SendWebRequest();
+
+                if (uwr.isNetworkError || uwr.isHttpError)
+                {
+                    Debug.LogError($"LocalJsonDatabase: GetTexture: Url: {url} Error: {uwr.error}");
+                }
+                else
+                {
+                    // Get downloaded asset bundle
+                    var text = DownloadHandlerTexture.GetContent(uwr);
+                    callback(text);
                 }
             }
         }

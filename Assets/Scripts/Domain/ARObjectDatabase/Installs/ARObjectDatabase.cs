@@ -14,7 +14,7 @@ namespace Domain.ARObjectDatabaseService
             public List<ARObjectData> data = new List<ARObjectData>();
         }
 
-        public List<ARObjectData> DefaultARObjects { get; private set; } = new List<ARObjectData>();
+        public List<ARObjectData> DefaultARObjects { get; private set; }
         //TODO: public List<ARObjectData> CustomARObjects { get; private set; } = new List<ARObjectData>();
         private IDatabase database;
 
