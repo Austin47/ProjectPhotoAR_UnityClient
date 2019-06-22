@@ -1,11 +1,10 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Domain.ARObjectSpawnService
 {
     public interface IARObject
     {
-        void SetPos(Vector3 pos);
+        void Configure(Vector3 pos, Texture2D text);
     }
 }
 

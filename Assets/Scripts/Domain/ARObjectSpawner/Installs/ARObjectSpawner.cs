@@ -34,7 +34,7 @@ namespace Domain.ARObjectSpawnService
             Vector3 spawnPoint = new Vector3();
             if(!raycastSystem.TryTouchPosToARPlane(pos, out spawnPoint)) return;
             var clone = aRObjectPool.Spawn();
-            clone.SetPos(spawnPoint);
+            //clone.Configure(spawnPoint);
         }
     }
 }
