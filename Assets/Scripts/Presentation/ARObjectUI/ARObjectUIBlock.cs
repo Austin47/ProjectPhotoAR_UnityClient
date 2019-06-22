@@ -8,6 +8,8 @@ namespace Presentation.ARObjectUI
 {
     public class ARObjectUIBlock : MonoBehaviour, IARObjectUIBlock
     {
+        private float defaultImageSize = 425;
+
         [SerializeField]
         private RawImage image;
 
@@ -17,6 +19,11 @@ namespace Presentation.ARObjectUI
         private void Construct(IDatabase database)
         {
             this.database = database;
+        }
+
+        private void Awake()
+        {
+            //defaultImageSize = image.rectTransform.sizeDelta.x;
         }
 
         public void Configure(Transform root, ARObjectData data)
@@ -29,6 +36,15 @@ namespace Presentation.ARObjectUI
         public void OnLoadDefaultTexture(Texture2D texture)
         {
             image.texture = texture;
+            ResizeImageBasedOnTexture(texture);
+        }
+
+        private void ResizeImageBasedOnTexture(Texture2D texture)
+        {
+            var textureSize = new Vector2(texture.width, texture.height);
+            var size = textureSize.GetEnvelopeToValue(defaultImageSize);
+            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
         }
     }
 }
