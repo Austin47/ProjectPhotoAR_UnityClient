@@ -1,5 +1,4 @@
 using System;
-using Infrastructure.InputService;
 using Infrastructure.RaycastService;
 using NSubstitute;
 using NUnit.Framework;
@@ -13,7 +12,6 @@ namespace Domain.ARObjectSpawnService.Tests
         private DiContainer container;
 
         private ARObjectSpawner aRObjectSpawner;
-        private IInputHandler inputHandler;
         private ARObjectPool aRObjectPool;
         private IRaycastSystem raycastSystem;
 
@@ -26,54 +24,35 @@ namespace Domain.ARObjectSpawnService.Tests
             this.aRObjectPool = aRObjectPool;
         }
 
-        // [SetUp]
-        // public void SetUp()
-        // {
-        //     container = new DiContainer();
+        [SetUp]
+        public void SetUp()
+        {
+            container = new DiContainer();
 
-        //     raycastSystem = Substitute.For<IRaycastSystem>();
-        //     container.Bind<IRaycastSystem>().FromInstance(raycastSystem).AsSingle();
+            raycastSystem = Substitute.For<IRaycastSystem>();
+            container.Bind<IRaycastSystem>().FromInstance(raycastSystem).AsSingle();
 
-        //     inputHandler = Substitute.For<IInputHandler>();
-        //     container.Bind<IInputHandler>().FromInstance(inputHandler).AsSingle();
+            var aRObject = Substitute.For<IARObject>();
+            container.BindMemoryPool<IARObject, ARObjectPool>().FromInstance(aRObject);
 
-        //     var aRObject = Substitute.For<IARObject>();
-        //     container.BindMemoryPool<IARObject, ARObjectPool>().FromInstance(aRObject);
+            container.Bind(typeof(ARObjectSpawner)).To<ARObjectSpawner>().AsSingle();
+            container.Inject(this);
+        }
 
-        //     container.Bind(typeof(ARObjectSpawner), typeof(IInitializable)).To<ARObjectSpawner>().AsSingle();
-        //     container.Inject(this);
-        //     aRObjectSpawner.Initialize();
-        // }
 
-        // [TestCase(true)]
-        // [TestCase(false)]
-        // public void TrySpawnObject(bool expected)
-        // {
-        //     // Arrange
-        //     Vector3 blankVector = new Vector3();
-        //     raycastSystem.TryTouchPosToARPlane(Arg.Any<Vector2>(), out blankVector).Returns(expected);
+        // TODO: AT - Need more test, to insure objects are being spawned at the right position
+        [Test]
+        public void Spawn()
+        {
+            // Arrange
+            int expectedCount = 1;
 
-        //     // Act
-        //     inputHandler.OnTap += Raise.Event<Action<Vector2>>(new Vector2());
+            // Act
+            aRObjectSpawner.Spawn(Arg.Any<Texture2D>());
 
-        //     // Assert
-        //     var expectedCount = expected ? 1 : 0;
-        //     Assert.AreEqual(expectedCount, aRObjectPool.NumTotal);
-        // }
-
-        // [Test]
-        // public void TrySpawnObject_Fail()
-        // {
-        //     // Arrange
-        //     Vector3 blankVector = new Vector3();
-        //     raycastSystem.TryTouchPosToARPlane(Arg.Any<Vector2>(), out blankVector).Returns(true);
-        //     aRObjectSpawner.Dispose();
-        //     // Act
-        //     inputHandler.OnTap += Raise.Event<Action<Vector2>>(new Vector2());
-
-        //     // Assert
-        //     Assert.AreEqual(0, aRObjectPool.NumTotal);
-        // }
+            // Assert
+            Assert.AreEqual(expectedCount, aRObjectPool.NumTotal);
+        }
     }
 }
 
