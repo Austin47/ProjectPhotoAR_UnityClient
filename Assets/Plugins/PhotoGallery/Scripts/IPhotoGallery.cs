@@ -7,6 +7,7 @@ namespace PhotoGalleryService
     {
         void SelectPhotoPath(Action<string> callback);
         void LoadPhoto(string uri, Action<Texture2D> callback);
+        void SaveToGallery(byte[] image, Action<string> callback);
     }
 }
 

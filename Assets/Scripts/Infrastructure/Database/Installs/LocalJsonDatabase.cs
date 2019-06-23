@@ -94,6 +94,11 @@ namespace Infrastructure.DatabaseService
                 }
             }
         }
+
+        public void SavePhoto(byte[] image, Action<string> callback)
+        {
+            
+        }
     }
 }
 

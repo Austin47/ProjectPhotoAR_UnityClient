@@ -38,21 +38,23 @@ namespace Domain.LayoutHandlerService.Tests
             Assert.AreEqual(defaultLayout, layoutHandler.DefaultLayout);
         }
 
-        [Test]
-        public void AddDefaultLayout_Pass_2()
-        {
-            // Arrange
-            ILayoutEntity defaultLayout = Substitute.For<ILayoutEntity>();
-            layoutHandler.SetDefaultLayout(defaultLayout);
+        // TODO: AT - this detects an error that should be logged in SetDefaultLayout
+        //  But it also logs it, this lets us know the test is passing, but its very confusing
+        // [Test]
+        // public void AddDefaultLayout_Pass_2()
+        // {
+        //     // Arrange
+        //     ILayoutEntity defaultLayout = Substitute.For<ILayoutEntity>();
+        //     layoutHandler.SetDefaultLayout(defaultLayout);
 
-            // Act
-            layoutHandler.SetDefaultLayout(Substitute.For<ILayoutEntity>());
+        //     // Act
+        //     layoutHandler.SetDefaultLayout(Substitute.For<ILayoutEntity>());
 
-            // Assert
-            // TODO: AT - this detects an error that should be logged in SetDefaultLayout
-            // But it also logs it, this lets us know the test is passing, but its very confusing
-            LogAssert.Expect(UnityEngine.LogType.Error, "LayoutHandler: SetDefaultLayout: defaultLayout has already been set!");
-        }
+        //     // Assert
+        //     // TODO: AT - this detects an error that should be logged in SetDefaultLayout
+        //     // But it also logs it, this lets us know the test is passing, but its very confusing
+        //     LogAssert.Expect(UnityEngine.LogType.Error, "LayoutHandler: SetDefaultLayout: defaultLayout has already been set!");
+        // }
 
         [Test]
         public void AddDefaultLayout_Pass_3()

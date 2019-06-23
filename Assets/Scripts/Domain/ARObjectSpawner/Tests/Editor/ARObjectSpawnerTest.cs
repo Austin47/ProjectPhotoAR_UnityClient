@@ -1,4 +1,3 @@
-using System;
 using Infrastructure.RaycastService;
 using NSubstitute;
 using NUnit.Framework;

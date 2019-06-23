@@ -113,6 +113,11 @@ namespace PhotoGalleryService
                 }
             }
         }
+        
+        public void SaveToGallery(byte[] image, Action<string> callback)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

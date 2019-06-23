@@ -8,7 +8,7 @@ namespace Infrastructure.DatabaseService
         void Load<T>(string url, Action<T> callback);
         void LoadDefaultTexture(string url, Action<Texture2D> callback);
         void LoadCustomTexture(string url, Action<Texture2D> callback);
-        void Save<T>(string url);
+        void SavePhoto(byte[] image, Action<string> callback);
     }
 }
 

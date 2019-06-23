@@ -1,5 +1,4 @@
 using UnityEngine;
-using Infrastructure.InputService;
 using Zenject;
 using Infrastructure.RaycastService;
 
