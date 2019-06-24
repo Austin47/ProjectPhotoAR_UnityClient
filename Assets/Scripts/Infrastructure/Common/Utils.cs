@@ -18,7 +18,6 @@ namespace Infrastructure.Common
             var textureSize = new Vector2(texture.width, texture.height);
             var scale = textureSize.GetEnvelopeToValue(envelopeSize);
             transform.localScale = new Vector3(scale.x, scale.y, 1);
-            transform.localPosition = new Vector3(0, scale.y / 2, 0);
         }
     }
 }
