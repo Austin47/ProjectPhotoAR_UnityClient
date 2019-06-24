@@ -11,11 +11,6 @@ namespace Domain.CameraCaptureService.Tests
 {
     public class CameraCaptureTest
     {
-        // Take picture - with I ICameraCapture
-        // save to the IDatabase
-        // notify when complete
-        // cant capture first image is done pressesing - queue pictures to be taken 
-        // - NVM no need for queue CameraImage.ConvertAsync dose this automatically 
         private DiContainer container;
 
         private CameraCapture cameraCapture;
@@ -52,21 +47,15 @@ namespace Domain.CameraCaptureService.Tests
         {
             // Arrange
             var callCount = 0;
-            var expected = 4;
-            var photoArray = new byte[] { 0, 1 };
+            var expected = 3;
             var photoPath = "path";
             var photoTexture = new Texture2D(1, 1);
-            cameraCaptureSystem.CapturePhoto(Arg.Do<Action<byte[]>>(cb =>
-            {
-                callCount++;
-                cb(photoArray);
-            }));
-            database.SavePhoto(photoArray, Arg.Do<Action<string>>(cb =>
+            cameraCaptureSystem.CapturePhoto(Arg.Do<Action<string>>(cb =>
             {
                 callCount++;
                 cb(photoPath);
             }));
-            photoGallery.LoadPhoto(photoPath, Arg.Do<Action<Texture2D>>(cb =>
+            database.LoadTextureFromLocalApp(photoPath, Arg.Do<Action<Texture2D>>(cb =>
             {
                 callCount++;
                 cb(photoTexture);
@@ -94,9 +83,8 @@ namespace Domain.CameraCaptureService.Tests
             var photoArray = new byte[] { 0, 1 };
             var photoPath = "path";
             var photoTexture = new Texture2D(1, 1);
-            cameraCaptureSystem.CapturePhoto(Arg.Do<Action<byte[]>>(cb => cb(photoArray)));
-            database.SavePhoto(photoArray, Arg.Do<Action<string>>(cb => cb(photoPath)));
-            photoGallery.LoadPhoto(photoPath, Arg.Do<Action<Texture2D>>(cb => cb(photoTexture)));
+            cameraCaptureSystem.CapturePhoto(Arg.Do<Action<string>>(cb => cb(photoPath)));
+            database.LoadTextureFromLocalApp(photoPath, Arg.Do<Action<Texture2D>>(cb => cb(photoTexture)));
             cameraCapture.OnCapturePhoto += t =>
             {
                 if (t == photoTexture)

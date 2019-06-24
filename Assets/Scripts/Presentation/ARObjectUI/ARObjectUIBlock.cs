@@ -40,7 +40,8 @@ namespace Presentation.ARObjectUI
             transform.SetParent(root);
             transform.localScale = Vector3.one;
             transform.localPosition = Vector3.zero;
-            database.LoadDefaultTexture(data.path, OnLoadDefaultTexture);
+            // TODO: AT - logic for when its not from the streaming assets
+            database.LoadTextureFromStringmAssets(data.path, OnLoadDefaultTexture);
         }
 
         public void OnLoadDefaultTexture(Texture2D texture)

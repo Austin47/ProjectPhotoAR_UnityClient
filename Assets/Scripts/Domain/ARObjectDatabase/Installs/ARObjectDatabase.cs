@@ -26,7 +26,7 @@ namespace Domain.ARObjectDatabaseService
 
         public void Initialize()
         {
-            database.Load<ARObjectDataHolder>($"{Application.streamingAssetsPath}/DefaultARObjects.json", StoreDefaultARObjects);
+            database.LoadFromStreamAssets<ARObjectDataHolder>($"DefaultARObjects.json", StoreDefaultARObjects);
         }
 
         private void StoreCustomARObjects(ARObjectDataHolder data)

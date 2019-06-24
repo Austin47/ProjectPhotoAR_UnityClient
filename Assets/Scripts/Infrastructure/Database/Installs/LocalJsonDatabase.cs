@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.IO;
+using Infrastructure.Common;
 using Infrastructure.CoroutineRunner;
 using PhotoGalleryService;
 using UnityEngine;
@@ -11,21 +11,6 @@ namespace Infrastructure.DatabaseService
 {
     public class LocalJsonDatabase : IDatabase
     {
-        private string FileHeader
-        {
-            get
-            {
-#if UNITY_EDITOR
-                return "file://";
-#elif UNITY_ANDROID
-            return string.Empty;
-#else
-            // TODO: AT - might something else for ios
-            return string.Empty;
-#endif
-            }
-        }
-
         private ICoroutineRunner coroutineRunner;
         private IPhotoGallery photoGallery;
 
@@ -38,33 +23,35 @@ namespace Infrastructure.DatabaseService
             this.photoGallery = photoGallery;
         }
 
-        public void Load<T>(string url, Action<T> callback)
+        public void LoadFromStreamAssets<T>(string url, Action<T> callback)
         {
-            coroutineRunner.RunCoroutine(LoadAsync<T>($"{FileHeader}{url}", callback));
+            coroutineRunner.RunCoroutine(LoadAsync<T>($"{FilePath.StreamingAssets}/{url}", callback));
         }
 
-        public void LoadDefaultTexture(string url, Action<Texture2D> callback)
+        public void LoadTextureFromStringmAssets(string url, Action<Texture2D> callback)
         {
-            // TODO: Still Noticeable lag spikes while loading
-            string path = $"{FileHeader}{Application.streamingAssetsPath}/{url}";
+            string path = $"{FilePath.StreamingAssets}/{url}";
             coroutineRunner.RunCoroutine(GetTexture(path, callback));
         }
 
-        public void LoadTexture(string url, Action<Texture2D> callback)
+        public void LoadTextureFromLocalApp(string url, Action<Texture2D> callback)
         {
-            string path = $"file://{FileHeader}{url}";
+            string path = $"{FilePath.Local}/{url}";
             coroutineRunner.RunCoroutine(GetTexture(path, callback));
         }
 
-        public void LoadCustomTexture(string url, Action<Texture2D> callback)
+        public void LoadTextureFromGallery(string url, Action<Texture2D> callback)
         {
-            // TODO: AT - Use AndroidPhotoGallery
+            // TODO: Android gallery?
             throw new NotImplementedException();
+            // string path = $"{FilePath.Gallery}/{url}";
+            // coroutineRunner.RunCoroutine(GetTexture(path, callback));
         }
 
-        public void Save<T>(string url)
+        public void SavePathToLocal(string url)
         {
-            throw new NotImplementedException();
+            // TODO: Save url to json file, so we can load pictures later
+            //throw new NotImplementedException();
         }
 
         private IEnumerator LoadAsync<T>(string url, Action<T> callback)
@@ -105,16 +92,6 @@ namespace Infrastructure.DatabaseService
                     callback(text);
                 }
             }
-        }
-
-        public void SavePhoto(byte[] image, Action<string> callback)
-        {
-            photoGallery.SaveToGallery(image, path =>
-            {
-                // TODO: We need to save this path into a json file
-                // for retrieving later
-                callback(path);
-            });
         }
     }
 }

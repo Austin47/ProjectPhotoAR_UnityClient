@@ -13,29 +13,23 @@ namespace Domain.CameraCaptureService
 
         private ICameraCaptureSystem cameraCaptureSystem;
         private IDatabase database;
-        private IPhotoGallery photoGallery;
 
         [Inject]
         public void Construct(
             ICameraCaptureSystem cameraCaptureSystem,
-            IDatabase database,
-            IPhotoGallery photoGallery)
+            IDatabase database)
         {
             this.cameraCaptureSystem = cameraCaptureSystem;
             this.database = database;
-            this.photoGallery = photoGallery;
         }
 
-        public void CapturePhoto() => cameraCaptureSystem.CapturePhoto(SavePhoto);
-        private void SavePhoto(byte[] photo)
+        public void CapturePhoto() => cameraCaptureSystem.CapturePhoto(SavePhotoPath);
+        private void SavePhotoPath(string photo)
         {
-            //database.SavePhoto(photo, OnSavedPhoto);
-            // Temp logic
-            Texture2D text = new Texture2D(1, 1);
-            //text.LoadImage(photo);
-            OnGetSavedPhoto(text);
+            database.SavePathToLocal(photo);
+            database.LoadTextureFromLocalApp(photo, OnGetSavedPhoto);
         }
-        private void OnSavedPhoto(string path) => /*photoGallery.LoadPhoto(path, OnGetSavedPhoto*/ Debug.Log("TODO: OnSavedPhoto");
+
         private void OnGetSavedPhoto(Texture2D texture)
         {
             var handler = OnCapturePhoto;

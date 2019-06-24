@@ -4,6 +4,6 @@ namespace Infrastructure.CCSystem
 {
     public interface ICameraCaptureSystem
     {
-        void CapturePhoto(Action<byte[]> callback);
+        void CapturePhoto(Action<string> callback);
     }
 }

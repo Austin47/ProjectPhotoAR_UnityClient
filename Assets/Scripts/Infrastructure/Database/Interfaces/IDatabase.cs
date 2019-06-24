@@ -5,11 +5,11 @@ namespace Infrastructure.DatabaseService
 {
     public interface IDatabase
     {
-        void Load<T>(string url, Action<T> callback);
-        void LoadTexture(string url, Action<Texture2D> callback);
-        void LoadDefaultTexture(string url, Action<Texture2D> callback);
-        void LoadCustomTexture(string url, Action<Texture2D> callback);
-        void SavePhoto(byte[] image, Action<string> callback);
+        void LoadFromStreamAssets<T>(string url, Action<T> callback);
+        void LoadTextureFromStringmAssets(string url, Action<Texture2D> callback);
+        void LoadTextureFromLocalApp(string url, Action<Texture2D> callback);
+        void LoadTextureFromGallery(string url, Action<Texture2D> callback);
+        void SavePathToLocal(string url);
     }
 }
 

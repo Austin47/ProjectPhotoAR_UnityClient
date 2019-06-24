@@ -40,7 +40,7 @@ namespace Domain.ARObjectDatabaseService.Tests
         {
             // Arrange
             ARObjectDatabase.ARObjectDataHolder data = new ARObjectDatabase.ARObjectDataHolder() { data = new List<ARObjectData>() };
-            database.Load(Arg.Any<string>(), Arg.Do<Action<ARObjectDatabase.ARObjectDataHolder>>(x => x(data)));
+            database.LoadFromStreamAssets(Arg.Any<string>(), Arg.Do<Action<ARObjectDatabase.ARObjectDataHolder>>(x => x(data)));
             // Act
             aRObjectDatabase.Initialize();
 
