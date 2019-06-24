@@ -52,7 +52,7 @@ namespace Infrastructure.DatabaseService
 
         public void LoadTexture(string url, Action<Texture2D> callback)
         {
-            string path = $"{FileHeader}/{url}";
+            string path = $"file://{FileHeader}{url}";
             coroutineRunner.RunCoroutine(GetTexture(path, callback));
         }
 
@@ -89,6 +89,7 @@ namespace Infrastructure.DatabaseService
 
         private IEnumerator GetTexture(string url, Action<Texture2D> callback)
         {
+            Debug.Log($"LocalJsonDatabase: GetTexture: url:{url}");
             using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
             {
                 yield return uwr.SendWebRequest();

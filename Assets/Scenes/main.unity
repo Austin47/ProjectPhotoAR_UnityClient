@@ -440,7 +440,7 @@ Canvas:
   m_GameObject: {fileID: 134583334}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 567625043}
   m_PlaneDistance: 20
   m_PixelPerfect: 0
@@ -1641,7 +1641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &567625041
 Transform:
   m_ObjectHideFlags: 0
@@ -2041,6 +2041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aRCameraBackground: {fileID: 1451906778}
   renderTexture: {fileID: 8400000, guid: 4585f88ea18ea40f7968a16cfb2585fa, type: 2}
+  canvas: {fileID: 134583337}
 --- !u!4 &777765214
 Transform:
   m_ObjectHideFlags: 0
@@ -3233,7 +3234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1199792656
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4038,9 +4039,9 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 4585f88ea18ea40f7968a16cfb2585fa, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
