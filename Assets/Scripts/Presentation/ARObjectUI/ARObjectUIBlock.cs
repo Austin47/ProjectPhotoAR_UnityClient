@@ -1,6 +1,7 @@
 ﻿using Domain.ARObjectDatabaseService;
 using Domain.ARObjectSpawnService;
 using Domain.LayoutHandlerService;
+using Infrastructure.Common;
 using Infrastructure.DatabaseService;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,15 +48,7 @@ namespace Presentation.ARObjectUI
         public void OnLoadDefaultTexture(Texture2D texture)
         {
             image.texture = texture;
-            ResizeImageBasedOnTexture(texture);
-        }
-
-        private void ResizeImageBasedOnTexture(Texture2D texture)
-        {
-            var textureSize = new Vector2(texture.width, texture.height);
-            var size = textureSize.GetEnvelopeToValue(defaultImageSize);
-            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
-            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+            Utils.EnvelopeToValueFromTexture2D(image, texture, defaultImageSize);
         }
 
         public void SpawnObject()

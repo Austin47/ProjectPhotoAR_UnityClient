@@ -1,4 +1,5 @@
 ﻿using Domain.CameraCaptureService;
+using Infrastructure.Common;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace Presentation.CameraCaptureService
         private RawImage image;
 
         private CameraCapture cameraCapture;
+        private float defaultImageSize;
 
         [Inject]
         private void Construct(CameraCapture cameraCapture) =>
@@ -22,6 +24,7 @@ namespace Presentation.CameraCaptureService
         private void Start()
         {
             cameraCapture.OnCapturePhoto += OnCapturePhoto;
+            defaultImageSize = image.rectTransform.rect.width;
         }
 
         private void OnDestroy()
@@ -29,10 +32,11 @@ namespace Presentation.CameraCaptureService
             cameraCapture.OnCapturePhoto -= OnCapturePhoto;
         }
 
-        private void OnCapturePhoto(Texture2D obj)
+        private void OnCapturePhoto(Texture2D texture)
         {
-            image.texture = obj;
+            image.texture = texture;
             if(!image.enabled) image.enabled = true;
+            Utils.EnvelopeToValueFromTexture2D(image, texture, defaultImageSize);
             onCapture.Invoke();
         }
     }
