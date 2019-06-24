@@ -39,6 +39,7 @@ namespace Presentation.ARObjectUI
         {
             transform.SetParent(root);
             transform.localScale = Vector3.one;
+            transform.localPosition = Vector3.zero;
             database.LoadDefaultTexture(data.path, OnLoadDefaultTexture);
         }
 

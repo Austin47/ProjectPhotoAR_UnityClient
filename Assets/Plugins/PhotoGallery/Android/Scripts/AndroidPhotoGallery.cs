@@ -59,6 +59,9 @@ namespace PhotoGalleryService
             job.Execute();
         }
 
+        // TODO: AT - this is actually save photo in app the returns the image
+        // need to refactor name and hard coded path
+        // we can load the photo using the Database
         public void LoadPhoto(string uri, Action<Texture2D> callback)
         {
             AndroidCallback androidCallback = new AndroidCallback();
@@ -68,6 +71,19 @@ namespace PhotoGalleryService
                 {
                     Debug.Log($"AndroidGallery finished LoadPhoto call with result {androidCallback.Result}");
                     androidCallbackHelper.StartCoroutine(GetTexture(androidCallback.Result, callback));
+                },
+                androidCallback: androidCallback);
+        }
+
+        public void SaveToGallery(byte[] image, Action<string> callback)
+        {
+            AndroidCallback androidCallback = new AndroidCallback();
+            AddBackgroundJob(
+                 execute: () => androidGallery.CallStatic("SaveToGallery", image, context, androidCallback),
+                callback: () =>
+                {
+                    Debug.Log($"AndroidGallery finished SaveToGallery call with result {androidCallback.Result}");
+                    callback(androidCallback.Result);
                 },
                 androidCallback: androidCallback);
         }
@@ -112,11 +128,6 @@ namespace PhotoGalleryService
                     callback(text);
                 }
             }
-        }
-        
-        public void SaveToGallery(byte[] image, Action<string> callback)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,71 +1,59 @@
-
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
 using System;
+using Infrastructure.CoroutineRunner;
+using Infrastructure.DatabaseService;
 
 namespace Infrastructure.CCSystem
 {
-    public class CameraCaptureSystem
+    public class CameraCaptureSystem : ICameraCaptureSystem
     {
-        private readonly ARCameraManager CameraManager;
+        private Camera cam { get { return Camera.main; } }
 
-        public CameraCaptureSystem(ARCameraManager cameraManager) => CameraManager = cameraManager;
+        public static Texture2D m_Texture;
+
+        private RenderTexture renderTexture;
+        private Texture2D lastCameraTexture;
+
+        private ARCameraBackground aRCameraBackground;
+        private ICoroutineRunner coroutineRunner;
+        private IDatabase database;
+
+        public CameraCaptureSystem(
+            ARCameraBackground aRCameraBackground,
+            RenderTexture renderTexture,
+            ICoroutineRunner coroutineRunner,
+            IDatabase database)
+        {
+            this.aRCameraBackground = aRCameraBackground;
+            this.renderTexture = renderTexture;
+            this.coroutineRunner = coroutineRunner;
+            this.database = database;
+        }
 
         public void CapturePhoto(Action<byte[]> callback)
         {
-            GetImageAsync(callback);
-        } 
+            // ScreenCapture.CaptureScreenshot("Test");
 
-        // Ref: https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@1.0/manual/cpu-camera-image.html
-        private void GetImageAsync(Action<byte[]> callback)
-        {
-            // Get information about the camera image
-            XRCameraImage image;
-            if (!CameraManager.TryGetLatestImage(out image))
-            {
-                return;
-            }
-            // If successful, launch a coroutine that waits for the image
-            // to be ready, then apply it to a texture.
-            image.ConvertAsync(new XRCameraImageConversionParams
-            {
-                // Get the full image
-                inputRect = new RectInt(0, 0, image.width, image.height),
+            // database.LoadTexture($"{Application.persistentDataPath}/Test.png", t => {
+            //     m_Texture = lastCameraTexture;
+            //     callback(t.EncodeToPNG());
+            // });
 
-                // Downsample by 2
-                outputDimensions = new Vector2Int(image.width / 2, image.height / 2),
+            //Graphics.Blit(null, renderTexture, aRCameraBackground.material);  
+            RenderTexture.active = renderTexture;
 
-                // Color image format
-                outputFormat = TextureFormat.RGB24,
+            // var activeRenderTexture = RenderTexture.active;
+            // RenderTexture.active = renderTexture;
+            if (lastCameraTexture == null)
+                lastCameraTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, true);
+            lastCameraTexture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            lastCameraTexture.Apply();
+            RenderTexture.active = null;
 
-                // Flip across the Y axis
-                transformation = CameraImageTransformation.MirrorY
+            m_Texture = lastCameraTexture;
 
-                // Call ProcessImage when the async operation completes
-            }, (status, conversionParams, data) =>
-            {
-                ProcessImage(status, conversionParams, data, callback);
-            });
-
-            // It is safe to dispose the image before the async operation completes.
-            image.Dispose();
-        }
-
-        private void ProcessImage(
-            AsyncCameraImageConversionStatus status, 
-            XRCameraImageConversionParams conversionParams, 
-            NativeArray<byte> data, 
-            Action<byte[]> callback)
-        {
-            if (status != AsyncCameraImageConversionStatus.Ready)
-            {
-                Debug.LogErrorFormat("Async request failed with status {0}", status);
-                return;
-            }
-
-            callback(data.ToArray());
+            callback(lastCameraTexture.EncodeToPNG());
         }
     }
 }

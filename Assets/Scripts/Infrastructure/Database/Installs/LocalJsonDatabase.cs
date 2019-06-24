@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using Infrastructure.CoroutineRunner;
+using PhotoGalleryService;
 using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
@@ -10,14 +11,12 @@ namespace Infrastructure.DatabaseService
 {
     public class LocalJsonDatabase : IDatabase
     {
-        private ICoroutineRunner coroutineRunner;
-
         private string FileHeader
         {
             get
             {
 #if UNITY_EDITOR
-            return "file://";
+                return "file://";
 #elif UNITY_ANDROID
             return string.Empty;
 #else
@@ -27,10 +26,16 @@ namespace Infrastructure.DatabaseService
             }
         }
 
+        private ICoroutineRunner coroutineRunner;
+        private IPhotoGallery photoGallery;
+
         [Inject]
-        private void Construct(ICoroutineRunner coroutineRunner)
+        private void Construct(
+            ICoroutineRunner coroutineRunner,
+            IPhotoGallery photoGallery)
         {
             this.coroutineRunner = coroutineRunner;
+            this.photoGallery = photoGallery;
         }
 
         public void Load<T>(string url, Action<T> callback)
@@ -42,6 +47,12 @@ namespace Infrastructure.DatabaseService
         {
             // TODO: Still Noticeable lag spikes while loading
             string path = $"{FileHeader}{Application.streamingAssetsPath}/{url}";
+            coroutineRunner.RunCoroutine(GetTexture(path, callback));
+        }
+
+        public void LoadTexture(string url, Action<Texture2D> callback)
+        {
+            string path = $"{FileHeader}/{url}";
             coroutineRunner.RunCoroutine(GetTexture(path, callback));
         }
 
@@ -97,7 +108,12 @@ namespace Infrastructure.DatabaseService
 
         public void SavePhoto(byte[] image, Action<string> callback)
         {
-            
+            photoGallery.SaveToGallery(image, path =>
+            {
+                // TODO: We need to save this path into a json file
+                // for retrieving later
+                callback(path);
+            });
         }
     }
 }

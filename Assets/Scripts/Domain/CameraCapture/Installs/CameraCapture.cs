@@ -27,8 +27,15 @@ namespace Domain.CameraCaptureService
         }
 
         public void CapturePhoto() => cameraCaptureSystem.CapturePhoto(SavePhoto);
-        private void SavePhoto(byte[] photo) => database.SavePhoto(photo, OnSavedPhoto);
-        private void OnSavedPhoto(string path) => photoGallery.LoadPhoto(path, OnGetSavedPhoto);
+        private void SavePhoto(byte[] photo)
+        {
+            database.SavePhoto(photo, OnSavedPhoto);
+            // Temp logic
+            Texture2D text = new Texture2D(1, 1);
+            text.LoadImage(photo);
+            OnGetSavedPhoto(text);
+        }
+        private void OnSavedPhoto(string path) => /*photoGallery.LoadPhoto(path, OnGetSavedPhoto*/ Debug.Log("TODO: OnSavedPhoto");
         private void OnGetSavedPhoto(Texture2D texture)
         {
             var handler = OnCapturePhoto;

@@ -87,7 +87,7 @@ namespace Domain.CameraCaptureService.Tests
         }
 
         [Test]
-        public void CapturePhotoEndtTexture()
+        public void CapturePhotoEndTexture()
         {
             // Arrange
             var success = false;
