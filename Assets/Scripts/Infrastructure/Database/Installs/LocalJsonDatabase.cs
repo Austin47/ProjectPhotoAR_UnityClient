@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Infrastructure.Common;
 using Infrastructure.CoroutineRunner;
+using Infrastructure.PermissionService;
 using PhotoGalleryService;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,14 +14,17 @@ namespace Infrastructure.DatabaseService
     {
         private ICoroutineRunner coroutineRunner;
         private IPhotoGallery photoGallery;
+        private IPermissions permissions;
 
         [Inject]
         private void Construct(
             ICoroutineRunner coroutineRunner,
-            IPhotoGallery photoGallery)
+            IPhotoGallery photoGallery,
+            IPermissions permissions)
         {
             this.coroutineRunner = coroutineRunner;
             this.photoGallery = photoGallery;
+            this.permissions = permissions;
         }
 
         public void LoadFromStreamAssets<T>(string url, Action<T> callback)
@@ -56,6 +60,7 @@ namespace Infrastructure.DatabaseService
 
         private IEnumerator LoadAsync<T>(string url, Action<T> callback)
         {
+            permissions.CheckReadStorage();
             using (UnityWebRequest uwr = UnityWebRequest.Get(url))
             {
                 yield return uwr.SendWebRequest();
@@ -76,6 +81,7 @@ namespace Infrastructure.DatabaseService
 
         private IEnumerator GetTexture(string url, Action<Texture2D> callback)
         {
+            permissions.CheckReadStorage();
             Debug.Log($"LocalJsonDatabase: GetTexture: url:{url}");
             using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
             {

@@ -1,6 +1,7 @@
 using System;
 using Infrastructure.CCSystem;
 using Infrastructure.DatabaseService;
+using Infrastructure.PermissionService;
 using PhotoGalleryService;
 using UnityEngine;
 using Zenject;
@@ -13,17 +14,24 @@ namespace Domain.CameraCaptureService
 
         private ICameraCaptureSystem cameraCaptureSystem;
         private IDatabase database;
+        private IPermissions permissions;
 
         [Inject]
         public void Construct(
             ICameraCaptureSystem cameraCaptureSystem,
-            IDatabase database)
+            IDatabase database,
+            IPermissions permissions)
         {
             this.cameraCaptureSystem = cameraCaptureSystem;
             this.database = database;
+            this.permissions = permissions;
         }
 
-        public void CapturePhoto() => cameraCaptureSystem.CapturePhoto(SavePhotoPath);
+        public void CapturePhoto()
+        {
+            permissions.CheckWriteStorage();
+            cameraCaptureSystem.CapturePhoto(SavePhotoPath);
+        }
         private void SavePhotoPath(string photo)
         {
             database.SavePathToLocal(photo);
