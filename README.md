@@ -7,15 +7,15 @@
 
 [![Unity Version](https://img.shields.io/badge/Unity%20Version%20-2019.1.6f1-blue.svg)](https://unity3d.com/unity/whats-new/2019.1.6)
 
-Project is a start good start point for anyone trying to create a Unity app with AR/Picture capabilities.<br />
+Project is a start good starting point for anyone trying to create a Unity app with AR/Picture capabilities.<br />
 Currently, in an early prototype stage
 
-### Current features
+### Current Features
 - Placing AR objects
 - Taking pictures
 
 
-### Future features
+### Future Features
 - Uploading custom pictures(in the app)
 - Pictures automatically save to gallery
 - Sharing pictures
