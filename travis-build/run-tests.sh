@@ -23,7 +23,7 @@ if [ $? = 0 ]; then
   echo "Editor tests Passed."
   ERROR_CODE=0
 else
-  echo "One or more Editor test failed $?."
+  echo "One or more Editor tests failed $?."
   ERROR_CODE=1
 fi
 

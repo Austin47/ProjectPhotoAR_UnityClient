@@ -1,6 +1,7 @@
 using System;
 using Infrastructure.CCSystem;
 using Infrastructure.DatabaseService;
+using Infrastructure.PermissionService;
 using NSubstitute;
 using NUnit.Framework;
 using PhotoGalleryService;
@@ -17,6 +18,7 @@ namespace Domain.CameraCaptureService.Tests
         private ICameraCaptureSystem cameraCaptureSystem;
         private IDatabase database;
         private IPhotoGallery photoGallery;
+        private IPermissions permissions;
 
         [Inject]
         private void Construct(CameraCapture cameraCapture)
@@ -38,6 +40,9 @@ namespace Domain.CameraCaptureService.Tests
 
             photoGallery = Substitute.For<IPhotoGallery>();
             container.Bind<IPhotoGallery>().FromInstance(photoGallery);
+
+            permissions = Substitute.For<IPermissions>();
+            container.Bind<IPermissions>().FromInstance(permissions);
 
             container.Inject(this);
         }
@@ -98,6 +103,16 @@ namespace Domain.CameraCaptureService.Tests
 
             // Assert
             Assert.IsTrue(success);
+        }
+
+        [Test]
+        public void TestPermissionsCheck()
+        {
+            // Arrange
+            // Act
+            cameraCapture.CapturePhoto();
+            // Assert
+            permissions.Received().CheckWriteStorage();
         }
     }
 }
