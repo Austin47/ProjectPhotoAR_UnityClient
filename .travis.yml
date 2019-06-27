@@ -1,24 +1,21 @@
 language: objective-c
 osx_image: xcode9.2
 rvm:
-- 2.2         #see before_install for getting RVM stable.
-
+- 2.2
 env:
-- TRAVIS_TAG="Deploy-2019.1.6f1" PROJECT_NAME="ProjectPhotoAR"
-
-
+  matrix:
+  - TRAVIS_TAG="Deploy-2019.1.6f1" PROJECT_NAME="ProjectPhotoAR"
+  global:
+  - secure: FqulJ9jWi5p0Us9ybglXLsW9BvVqzMofoD9e6naQzoBglkyhvFzQB2MrPuD9Z2079+LFUpEeMn19fiMbAv5gSHblGLktiwAg7axz+/6/v6oJz44/L09uwkSTpB8GRwqOnyTl+mU6UfiqLTrcLFfRB2uPI6ivlMoX5MDu9E6+YkkXwU1SDP6DwEMeHnl8G0EAdjyNAx/LVYzBnZIRV2W+TlieO2ptpnJsyk5G3ckS+HrnRrT+p/jjHgjyA8iKyLYg1h4mTptYCn72zJ6EBPMhW4GvI2SYIq7tXbOivApaBLWHIUGo20K7c/okbtAhlZ2KdmLo2cCU/DFncEldmqJYPfpDrVnKIEN8nmX9aNjpAg82K7hMSOQva8hjhbZJPTT8C4MVsjU6jTUaN7x9NHZJOGU2GLBGcyiDaYr3fDw4c/kBOwkkhT2oXabTJqGQ0tgzJn3yQDdRAnEKIzEbAgigDSzhnFe39KUSY06MzDNGWcAJ5KyndbjfE8Te19g7cvV0Ud7QdzDVJwrsOrfKf4hCC9Pl3HKA4ygdl1MWgmKkX8PUM29d36vpBpFCC7ibA5kSSPAepGPGsAgM7rUFBJy+bVuQMwBaZmHTeM+AWXKoyNti/Em0HmezGgikXybfA+POXrpcx0ed1SX2UkMo6WYbO8u6xPClkYZ5GN7X7ZMOb4w=
+  - secure: VivPx6DgE4TGa0ia9NhWFgdo6a7f50bU9+wzFPynWiDGr9fEYSIoiKmyKMKU9+wjVQu7FxXR1MkY23z9ZZG1KEBKOlb7qSWZr9unLDI0zsRL1uQoGMFb78rhT+Uxf5wNwEav4ZHWKcqIM5YoVKaf754vlarNe6Hglubm5KcB9/1nklp1OCZWHybfuoQDdiQdPbNZTzmXagBdCWoHmLWVoIQ2fto6sQA8Vg9s/Ix39RzJ9+RMP78gbyehKGdg1AUGgjLkLw2AllCdhrAGa8waik21oJNOV+X+hhSm3P+MpZseNU3UlZ9Br+K2ihBSPlH0uMrD/vs+pfLRNSejqWor1yjBQyHc9Djo3yfzlrYBqRK/lf7OkU/T6VHFYUi/9U6Kl9YbmHM0DVvavkKHCp0lZ9Z05kFi7S31dUPzgbeqnuAGt6jq7Y9m5S0jNcGyVEj46LqjvsmshW/Ko+Y9JcSaxdgSVyY3M3PePVEzuhW3Gc+XZOCcaoTLjd5F5nBljememS5ZtcwabuvdpJkw/nU6KCVKUBVwJ697Zw8XwpRuOPTq62Z18gN7LR3jLUtrxx0ScZHuFCEDSeirA1sySWwg9rHlGWQsb383o3kiJrEJVgKb3aMxGM5A+3cDUw80sB9QjyB5cX8twHabfA7pTsajjGpqrZBs0kuvYZGALoTSXIo=
 cache:
   directories:
-    - $UNITY_DOWNLOAD_CACHE
-
-    
+  - "$UNITY_DOWNLOAD_CACHE"
 before_install:
 - chmod a+x ./travis-build/*.sh
-
 install:
 - cat /etc/hosts
-- ./travis-build/install-unity.sh
-
+- "./travis-build/install-unity.sh"
 script:
-- ./travis-build/build.sh
-- ./travis-build/run-tests.sh
+- "./travis-build/build.sh"
+- "./travis-build/run-tests.sh"

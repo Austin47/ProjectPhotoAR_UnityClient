@@ -19,6 +19,8 @@ mkdir $UNITY_BUILD_DIR
   -logFile \
   -projectPath "$PROJECT_PATH" \
   -buildTarget "Android" \
+  -username "$UNITYEMAIL"
+  -password "$UNITYPASSWORD"
   -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid"
   -quit \
   | tee "$LOG_FILE"
