@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 namespace Infrastructure.EditorHelpers
 {
@@ -19,8 +20,11 @@ namespace Infrastructure.EditorHelpers
             if (!Directory.Exists(buildPath))
                 Directory.CreateDirectory(buildPath);
 
+            Debug.Log("--Builder: BuildDevForAndroid: StartBuild");
             string buildName = GetBuildName();
+            Debug.Log($"--Builder: BuildDevForAndroid: buildName {buildName}");
             var result = BuildPipeline.BuildPlayer(scenes.ToArray(), $"{buildPath}/{buildName}", BuildTarget.Android, BuildOptions.Development);
+            Debug.Log($"--Builder: BuildDevForAndroid: build finished path = {result.summary.outputPath}");
 
             // HACK: Small Hack so we don't exit the editor on local machines 
             if (string.IsNullOrWhiteSpace(GetArg("buildName")))
