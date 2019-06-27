@@ -7,7 +7,6 @@ UNITY_BUILD_APK_NAME=dev_travis.apk
 UNITY_BUILD_APK_PATH=$PROJECT_PATH/Builds/Android/Development
 UNITY_BUILD_APK=$UNITY_BUILD_APK_PATH/$UNITY_BUILD_APK_NAME
 
-
 ERROR_CODE=0
 echo "Items in project path ($PROJECT_PATH):"
 ls "$PROJECT_PATH"
@@ -32,7 +31,7 @@ echo "Items build folder ($UNITY_BUILD_APK_PATH):"
 ls "$UNITY_BUILD_APK_PATH"
 
 if [ $? = 0 ]; then
-  if [ -e $UNITY_BUILD_APK ]; then
+  if [ -e "$UNITY_BUILD_APK" ]; then
     echo "Building Android apk completed successfully."
     ERROR_CODE=0
   else
