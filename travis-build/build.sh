@@ -21,6 +21,7 @@ mkdir $UNITY_BUILD_DIR
   -buildTarget "Android" \
   -username "$UNITYEMAIL" \
   -password "$UNITYPASSWORD" \
+  -serial "$UNITYKEY" \
   -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid" \
   -quit \
   | tee "$LOG_FILE"
