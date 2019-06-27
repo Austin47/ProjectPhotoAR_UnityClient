@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 
 namespace Infrastructure.EditorHelpers
 {
@@ -19,12 +20,20 @@ namespace Infrastructure.EditorHelpers
                 Directory.CreateDirectory(buildPath);
 
             string buildName = GetBuildName();
-            BuildPipeline.BuildPlayer(scenes.ToArray(), $"{buildPath}/{buildName}", BuildTarget.Android, BuildOptions.Development);
+            var result = BuildPipeline.BuildPlayer(scenes.ToArray(), $"{buildPath}/{buildName}", BuildTarget.Android, BuildOptions.Development);
+
+            // HACK: Small Hack so we don't exit the editor on local machines 
+            if (string.IsNullOrWhiteSpace(GetArg("buildName")))
+                return;
+            if (result.summary.result == BuildResult.Succeeded)
+                EditorApplication.Exit(0);
+            else
+                EditorApplication.Exit(1);
         }
 
         private static string GetBuildName()
         {
-            string name = GetArg("devName");
+            string name = GetArg("buildName");
             return !string.IsNullOrWhiteSpace(name) ? name : $"v{PlayerSettings.bundleVersion}_b{PlayerSettings.Android.bundleVersionCode}.apk";
         }
 

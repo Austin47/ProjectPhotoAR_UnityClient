@@ -15,7 +15,7 @@ ls "$PROJECT_PATH"
 echo "Building project for Android..."
 mkdir $UNITY_BUILD_DIR
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
-  -devName $UNITY_BUILD_APK_NAME \
+  --args buildName $UNITY_BUILD_APK_NAME \
   -batchmode \
   -nographics \
   -silent-crashes \
@@ -25,8 +25,7 @@ mkdir $UNITY_BUILD_DIR
   -username "$UNITYEMAIL" \
   -password "$UNITYPASSWORD" \
   -serial "$UNITYKEY" \
-  -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid" \
-  -quit |
+  -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid" |
   tee "$LOG_FILE"
 
 echo "Items build folder ($UNITY_BUILD_APK_PATH):"
