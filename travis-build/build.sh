@@ -26,7 +26,7 @@ mkdir $UNITY_BUILD_DIR
   tee "$LOG_FILE"
 
 if [ $? = 0 ]; then
-  if [ -d UNITY_BUILD_APK ]; then
+  if [ -d $UNITY_BUILD_APK ]; then
     echo "Building Android apk completed successfully."
     ERROR_CODE=0
   else
