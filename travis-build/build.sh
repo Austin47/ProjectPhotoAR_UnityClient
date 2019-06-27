@@ -3,7 +3,7 @@
 PROJECT_PATH=$(pwd)
 UNITY_BUILD_DIR=$(pwd)/Build
 LOG_FILE=$UNITY_BUILD_DIR/unity-android.log
-UNITY_BUILD_APK_NAME="dev_travis.apk"
+UNITY_BUILD_APK_NAME=dev_travis.apk
 UNITY_BUILD_APK_PATH=$PROJECT_PATH/Builds/Android/Development
 UNITY_BUILD_APK=$UNITY_BUILD_APK_PATH/$UNITY_BUILD_APK_NAME
 
@@ -15,7 +15,7 @@ ls "$PROJECT_PATH"
 echo "Building project for Android..."
 mkdir $UNITY_BUILD_DIR
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
-  --args devName $UNITY_BUILD_APK_NAME \
+  -devName $UNITY_BUILD_APK_NAME \
   -batchmode \
   -nographics \
   -silent-crashes \
