@@ -3,8 +3,9 @@
 PROJECT_PATH=$(pwd)
 UNITY_BUILD_DIR=$(pwd)/Build
 LOG_FILE=$UNITY_BUILD_DIR/unity-android.log
-UNITY_BUILD_APK_NAME=dev_travis.apk
-UNITY_BUILD_APK=$PROJECT_PATH/Builds/Android/Development/$UNITY_BUILD_APK_NAME
+UNITY_BUILD_APK_NAME="dev_travis.apk"
+UNITY_BUILD_APK_PATH=$PROJECT_PATH/Builds/Android/Development
+UNITY_BUILD_APK=$UNITY_BUILD_APK_PATH/$UNITY_BUILD_APK_NAME
 
 
 ERROR_CODE=0
@@ -27,6 +28,9 @@ mkdir $UNITY_BUILD_DIR
   -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid" \
   -quit |
   tee "$LOG_FILE"
+
+echo "Items build folder ($UNITY_BUILD_APK_PATH):"
+ls "$UNITY_BUILD_APK_PATH"
 
 if [ $? = 0 ]; then
   if [ -f $UNITY_BUILD_APK ]; then
