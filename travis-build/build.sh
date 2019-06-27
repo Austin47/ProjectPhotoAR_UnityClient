@@ -7,7 +7,7 @@ UNITY_BUILD_APK_NAME=dev_travis.apk
 UNITY_BUILD_APK_PATH=$PROJECT_PATH/Builds/Android/Development
 UNITY_BUILD_APK=$UNITY_BUILD_APK_PATH/$UNITY_BUILD_APK_NAME
 
-ERROR_CODE=0
+ERROR_CODE=1
 echo "Items in project path ($PROJECT_PATH):"
 ls "$PROJECT_PATH"
 
@@ -27,17 +27,9 @@ mkdir $UNITY_BUILD_DIR
   -executeMethod "Infrastructure.EditorHelpers.Builder.BuildDevForAndroid" |
   tee "$LOG_FILE"
 
-echo "Items build folder ($UNITY_BUILD_APK_PATH):"
-ls "$UNITY_BUILD_APK_PATH"
-
 if [ $? = 0 ]; then
-  if [ -e "$UNITY_BUILD_APK" ]; then
-    echo "Building Android apk completed successfully."
-    ERROR_CODE=0
-  else
-    echo "Building Android apk failed. Apk not found, check logs for possible build failure."
-    ERROR_CODE=1
-  fi
+  echo "Building Android apk completed successfully."
+  ERROR_CODE=0
 else
   echo "Building Android apk failed. Exited with $?."
   ERROR_CODE=1
