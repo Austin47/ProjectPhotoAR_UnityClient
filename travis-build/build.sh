@@ -34,6 +34,9 @@ else
   ERROR_CODE=1
 fi
 
+echo "return license"
+/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -returnlicense
+
 #echo 'Build logs:'
 #cat $LOG_FILE
 
