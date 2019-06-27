@@ -32,7 +32,7 @@ echo "Items build folder ($UNITY_BUILD_APK_PATH):"
 ls "$UNITY_BUILD_APK_PATH"
 
 if [ $? = 0 ]; then
-  if [ -f $UNITY_BUILD_APK ]; then
+  if [ -e $UNITY_BUILD_APK ]; then
     echo "Building Android apk completed successfully."
     ERROR_CODE=0
   else
