@@ -14,7 +14,7 @@ ls "$PROJECT_PATH"
 echo "Building project for Android..."
 mkdir $UNITY_BUILD_DIR
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
-  --args devName $UNITY_BUILD_APK_NAME
+  --args devName $UNITY_BUILD_APK_NAME \
   -batchmode \
   -nographics \
   -silent-crashes \
