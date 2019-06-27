@@ -20,3 +20,4 @@ install:
 script:
 - "./travis-build/build.sh"
 - "./travis-build/run-tests.sh"
+- "./travis-build/clean-up.sh"

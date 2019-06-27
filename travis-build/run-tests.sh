@@ -16,18 +16,14 @@ echo "Running editor test..."
   -username "$UNITYEMAIL" \
   -password "$UNITYPASSWORD" \
   -serial "$UNITYKEY" \
-  -runEditorTests |
-  tee "$LOG_FILE"
+  -runEditorTests
 
 if [ $? = 0 ]; then
   echo "Editor tests Passed."
   ERROR_CODE=0
 else
-  echo "One or more Editor tests failed $?."
+  echo "One or more Editor tests failed. Exited with $?."
   ERROR_CODE=1
 fi
-
-echo "return license"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -returnlicense
 
 exit $ERROR_CODE
