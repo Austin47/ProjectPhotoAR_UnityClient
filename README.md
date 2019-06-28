@@ -31,6 +31,6 @@ Currently, in an early prototype stage.
 - [NSubstitute](https://nsubstitute.github.io/)
 
 ### Sample Video:
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=VBF8PrGMDIA
-" target="_blank"><img src="http://img.youtube.com/vi/VBF8PrGMDIA/0.jpg" 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=UKmiPFul3UM
+" target="_blank"><img src="http://img.youtube.com/vi/UKmiPFul3UM/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="256" height="196" border="10" /></a>
