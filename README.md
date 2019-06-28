@@ -3,12 +3,14 @@
 [![Travis (.org) branch](https://img.shields.io/travis/austin47/ProjectPhotoAR_UnityClient/development.svg?label=development-build)](https://travis-ci.org/Austin47/ProjectPhotoAR_UnityClient)
 
 [![GitHub release](https://img.shields.io/github/release-pre/austin47/ProjectPhotoAR_UnityClient.svg?label=pre-release)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases)
-[![Android Download](https://img.shields.io/badge/Download-Android-brightgreen.svg)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases/download/v0.1.0/v0.1.0.apk)
+[![Android Download](https://img.shields.io/badge/download-android-brightgreen.svg)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases/download/v0.1.0/v0.1.0.apk)
 
-[![Unity Version](https://img.shields.io/badge/Unity%20Version%20-2019.1.6f1-blue.svg)](https://unity3d.com/unity/whats-new/2019.1.6)
+[![Unity Version](https://img.shields.io/badge/unity%20version%20-2019.1.6f1-blue.svg)](https://unity3d.com/unity/whats-new/2019.1.6)
 
 Project is a start good starting point for anyone trying to create a Unity app with AR/Picture capabilities.<br />
 Currently, in an early prototype stage
+
+<img src="/docs/images/v0.1.0_s1.jpg" width="256">
 
 ### Current Features
 - Placing AR objects
@@ -27,3 +29,7 @@ Currently, in an early prototype stage
 - [Zenject](https://github.com/modesttree/Zenject)
 - [TouchKit](https://github.com/prime31/TouchKit)
 - [NSubstitute](https://nsubstitute.github.io/)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VBF8PrGMDIA
+" target="_blank"><img src="http://img.youtube.com/vi/VBF8PrGMDIA/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="256" height="196" border="10" /></a>
