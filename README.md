@@ -7,8 +7,8 @@
 
 [![Unity Version](https://img.shields.io/badge/unity%20version%20-2019.1.6f1-blue.svg)](https://unity3d.com/unity/whats-new/2019.1.6)
 
-Project is a start good starting point for anyone trying to create a Unity app with AR/Picture capabilities.<br />
-Currently, in an early prototype stage
+This project is a starting point for anyone trying to create a Unity app with AR/Picture capabilities.<br />
+Currently, in an early prototype stage.
 
 <img src="/docs/images/v0.1.0_s1.jpg" width="256">
 
