@@ -40,7 +40,7 @@ namespace Domain.ARAlignmentService
             var direction = Utils.GetDirectionBetweenVectors(cameraSystem.pos, arObject.pos);
             var newPos = Vector3.zero;
             if (!raycastSystem.TryToGetPlanePoint(cameraSystem.pos, direction, out newPos)) return;
-            arObject.SetY(newPos.y);
+            arObject.SetPosition(newPos);
             unaligned.Remove(arObject);
         }
 

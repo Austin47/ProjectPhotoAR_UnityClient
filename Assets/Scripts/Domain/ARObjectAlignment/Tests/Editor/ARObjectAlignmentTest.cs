@@ -65,7 +65,7 @@ namespace Domain.ARAlignmentService.Tests
             aRObjectAlignment.Tick();
             
             // Assert
-            aRObject.Received().SetY(5);
+            aRObject.Received().SetPosition(planePoint);
         }
     }
 }

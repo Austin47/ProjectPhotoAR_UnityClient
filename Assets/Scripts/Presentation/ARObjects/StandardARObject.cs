@@ -15,7 +15,7 @@ namespace Presentation.ARObjectSpawner
 
         public void Configure(Vector3 pos, Texture2D texture)
         {
-            transform.position = pos;
+            SetPosition(pos);
             rend.material.mainTexture = texture;
 
             Utils.EnvelopeToValueFromTexture2D(rend.transform, texture, 1);
@@ -23,9 +23,9 @@ namespace Presentation.ARObjectSpawner
             FaceCamera();
         }
 
-        public void SetY(float posY)
+        public void SetPosition(Vector3 pos)
         {
-            transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+            transform.position = pos;
         }
 
         private void FaceCamera()
