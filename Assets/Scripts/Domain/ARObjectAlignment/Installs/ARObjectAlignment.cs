@@ -37,9 +37,9 @@ namespace Domain.ARAlignmentService
         private void Align(IARObject arObject)
         {
             if(!arObject.IsVisible) return;
-            var direction = Utils.GetDirectionBetweenVectors(arObject.pos, cameraSystem.cameraPos);
+            var direction = Utils.GetDirectionBetweenVectors(cameraSystem.pos, arObject.pos);
             var newPos = Vector3.zero;
-            if (raycastSystem.TryToGetPlanePoint(arObject.pos, direction, out newPos)) return;
+            if (!raycastSystem.TryToGetPlanePoint(arObject.pos, direction, out newPos)) return;
             arObject.SetY(newPos.y);
             unaligned.Remove(arObject);
 

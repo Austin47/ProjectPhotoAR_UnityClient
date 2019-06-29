@@ -1,6 +1,10 @@
+using Domain.ARObjectSpawnService;
+using Infrastructure.CameraService;
+using Infrastructure.Common;
 using Infrastructure.RaycastService;
 using NSubstitute;
 using NUnit.Framework;
+using UnityEngine;
 using Zenject;
 
 namespace Domain.ARAlignmentService.Tests
@@ -10,7 +14,9 @@ namespace Domain.ARAlignmentService.Tests
         private DiContainer container;
         
         private ARObjectAlignment aRObjectAlignment;
+        private ICameraSystem cameraSystem;
         private IRaycastSystem raycastSystem;
+        private IARObject aRObject;
         
         [Inject]
         private void Construct(ARObjectAlignment aRObjectAlignment)
@@ -26,18 +32,40 @@ namespace Domain.ARAlignmentService.Tests
 
             raycastSystem = Substitute.For<IRaycastSystem>();
             container.Bind<IRaycastSystem>().FromInstance(raycastSystem);
-            
+
+            cameraSystem = Substitute.For<ICameraSystem>();
+            container.Bind<ICameraSystem>().FromInstance(cameraSystem);
+
+            aRObject = Substitute.For<IARObject>();
+
             container.Inject(this);
         }
         
         [Test]
-        public void Test()
+        public void TestPlaceObject()
         {
             // Arrange
+            aRObjectAlignment.RegistererUnaligned(aRObject);
+            var blankVector = Vector3.zero;
+            var cameraPos = new Vector3(1, 4, 6);
+            var aRObjectPos = new Vector3(0, 1, 2);
+            var planePoint = new Vector3(0, 5, 0);
+            cameraSystem.pos.Returns(cameraPos);
+            aRObject.pos.Returns(aRObjectPos);
+            aRObject.IsVisible.Returns(true);
+            raycastSystem.TryToGetPlanePoint(
+                aRObjectPos, 
+                Utils.GetDirectionBetweenVectors(cameraPos, aRObjectPos),
+                 out blankVector).Returns( x => {
+                     x[2] = planePoint;
+                     return true;
+                 });
 
             // Act
+            aRObjectAlignment.Tick();
             
             // Assert
+            aRObject.Received().SetY(5);
         }
     }
 }

@@ -21,9 +21,14 @@ namespace Infrastructure.Common
         }
 
         // Source https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
+        /// <summary>
+        /// Gets a vector that points from point1 to point2.
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
         public static Vector3 GetDirectionBetweenVectors(Vector3 point1, Vector3 point2)
         {
-            // Gets a vector that points from the point1 position to the point2 position.
             var heading = point2 - point1;
 
             var distance = heading.magnitude;
