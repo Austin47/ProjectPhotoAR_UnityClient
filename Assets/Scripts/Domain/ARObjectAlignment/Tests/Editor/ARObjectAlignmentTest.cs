@@ -54,7 +54,7 @@ namespace Domain.ARAlignmentService.Tests
             aRObject.pos.Returns(aRObjectPos);
             aRObject.IsVisible.Returns(true);
             raycastSystem.TryToGetPlanePoint(
-                aRObjectPos, 
+                cameraPos, 
                 Utils.GetDirectionBetweenVectors(cameraPos, aRObjectPos),
                  out blankVector).Returns( x => {
                      x[2] = planePoint;

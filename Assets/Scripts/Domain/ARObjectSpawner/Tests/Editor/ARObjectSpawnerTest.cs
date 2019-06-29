@@ -1,3 +1,4 @@
+using Domain.ARAlignmentService;
 using Infrastructure.RaycastService;
 using NSubstitute;
 using NUnit.Framework;
@@ -10,6 +11,8 @@ namespace Domain.ARObjectSpawnService.Tests
     {
         private DiContainer container;
 
+        public IARObject aRObject;
+        private IARObjectAlignment aRObjectAlignment;
         private ARObjectSpawner aRObjectSpawner;
         private ARObjectPool aRObjectPool;
         private IRaycastSystem raycastSystem;
@@ -31,15 +34,17 @@ namespace Domain.ARObjectSpawnService.Tests
             raycastSystem = Substitute.For<IRaycastSystem>();
             container.Bind<IRaycastSystem>().FromInstance(raycastSystem).AsSingle();
 
-            var aRObject = Substitute.For<IARObject>();
+            aRObject = Substitute.For<IARObject>();
             container.BindMemoryPool<IARObject, ARObjectPool>().FromInstance(aRObject);
+
+            aRObjectAlignment = Substitute.For<IARObjectAlignment>();
+            container.Bind<IARObjectAlignment>().FromInstance(aRObjectAlignment);
 
             container.Bind(typeof(ARObjectSpawner)).To<ARObjectSpawner>().AsSingle();
             container.Inject(this);
         }
 
 
-        // TODO: AT - Need more test, to insure objects are being spawned at the right position
         [Test]
         public void Spawn()
         {
@@ -51,6 +56,19 @@ namespace Domain.ARObjectSpawnService.Tests
 
             // Assert
             Assert.AreEqual(expectedCount, aRObjectPool.NumTotal);
+        }
+
+        [Test]
+        public void SpawnAndConfigure()
+        {
+            // Arrange
+            var objectConfigured = false;
+
+            // Act
+            aRObjectSpawner.Spawn(Arg.Any<Texture2D>());
+
+            // Assert
+            aRObject.Received().Configure(Arg.Any<Vector3>(), Arg.Any<Texture2D>());
         }
     }
 }

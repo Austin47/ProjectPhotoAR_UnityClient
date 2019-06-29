@@ -23,7 +23,7 @@ namespace Infrastructure.RaycastService
         {
             spawnPoint = new Vector3();
             List<ARRaycastHit> list = new List<ARRaycastHit>();
-            if (!aRRaycastManager.Raycast(pos, list, TrackableType.All)) return false;
+            if (!aRRaycastManager.Raycast(pos, list, TrackableType.Planes)) return false;
             spawnPoint = list[0].pose.position;
             return true;
         }
