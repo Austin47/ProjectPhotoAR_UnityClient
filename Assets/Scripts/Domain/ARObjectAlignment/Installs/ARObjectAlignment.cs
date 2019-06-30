@@ -28,6 +28,7 @@ namespace Domain.ARAlignmentService
 
         public void Tick()
         {
+            // TODO: AT - I there are 100 unalined objects, this will become problematic
             for(int i = 0; i < unaligned.Count; i++)
             {
                 Align(unaligned[i]);

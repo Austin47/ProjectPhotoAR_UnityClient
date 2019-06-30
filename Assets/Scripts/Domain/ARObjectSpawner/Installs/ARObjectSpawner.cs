@@ -2,6 +2,7 @@ using UnityEngine;
 using Zenject;
 using Infrastructure.RaycastService;
 using Domain.ARAlignmentService;
+using Infrastructure.CameraService;
 
 namespace Domain.ARObjectSpawnService
 {
@@ -11,16 +12,19 @@ namespace Domain.ARObjectSpawnService
 
         private IARObjectAlignment aRObjectAlignment;
         private ARObjectPool aRObjectPool;
+        private ICameraSystem cameraSystem;
         private IRaycastSystem raycastSystem;
 
         [Inject]
         private void Construct(
             IARObjectAlignment aRObjectAlignment,
             ARObjectPool aRObjectPool,
+            ICameraSystem cameraSystem,
             IRaycastSystem raycastSystem)
         {
             this.aRObjectAlignment = aRObjectAlignment;
             this.aRObjectPool = aRObjectPool;
+            this.cameraSystem = cameraSystem;
             this.raycastSystem = raycastSystem;
         }
 
@@ -30,7 +34,7 @@ namespace Domain.ARObjectSpawnService
             var planeFound = true;
             if (!raycastSystem.TryTouchPosToARPlane(CenterOfScreen(), out spawnPoint))
             {
-                spawnPoint = Camera.main.transform.forward * SPAWN_DISTANCE;
+                spawnPoint = cameraSystem.GetPointInFrontOfCamera(SPAWN_DISTANCE);
                 planeFound = false;
             }
             var clone = aRObjectPool.Spawn();

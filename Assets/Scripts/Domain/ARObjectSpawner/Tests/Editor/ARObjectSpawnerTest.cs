@@ -1,4 +1,5 @@
 using Domain.ARAlignmentService;
+using Infrastructure.CameraService;
 using Infrastructure.RaycastService;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,6 +16,7 @@ namespace Domain.ARObjectSpawnService.Tests
         private IARObjectAlignment aRObjectAlignment;
         private ARObjectSpawner aRObjectSpawner;
         private ARObjectPool aRObjectPool;
+        private ICameraSystem cameraSystem;
         private IRaycastSystem raycastSystem;
 
         [Inject]
@@ -39,6 +41,9 @@ namespace Domain.ARObjectSpawnService.Tests
 
             aRObjectAlignment = Substitute.For<IARObjectAlignment>();
             container.Bind<IARObjectAlignment>().FromInstance(aRObjectAlignment);
+
+            cameraSystem = Substitute.For<ICameraSystem>();
+            container.Bind<ICameraSystem>().FromInstance(cameraSystem);
 
             container.Bind(typeof(ARObjectSpawner)).To<ARObjectSpawner>().AsSingle();
             container.Inject(this);
