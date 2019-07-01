@@ -10,7 +10,6 @@ echo "Running editor test..."
   -batchmode \
   -nographics \
   -silent-crashes \
-  -logFile \
   -projectPath "$PROJECT_PATH" \
   -buildTarget "Android" \
   -username "$UNITYEMAIL" \

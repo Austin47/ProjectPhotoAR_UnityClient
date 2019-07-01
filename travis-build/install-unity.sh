@@ -32,8 +32,6 @@ install() {
 	sudo installer -dumplog -package $UNITY_DOWNLOAD_CACHE/`basename "$PACKAGE_URL"` -target /
 }
 
-
-
 echo "Contents of Unity Download Cache:"
 ls $UNITY_DOWNLOAD_CACHE
 

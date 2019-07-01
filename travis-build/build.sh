@@ -35,8 +35,5 @@ else
   ERROR_CODE=1
 fi
 
-#echo 'Build logs:'
-#cat $LOG_FILE
-
 echo "Finishing with code $ERROR_CODE"
 exit $ERROR_CODE
