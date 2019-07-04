@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Infrastructure.InputService
 {
     public interface IInputSystem
     {
-        event Action<Vector2> OnTap;
+        bool IsTouching { get; }
+        event Action<Vector2> OnPanHandler;
+        event Action<float> OnPinchHandler;
+        event Action<float> OnRotationHandler;
     }
 }
 

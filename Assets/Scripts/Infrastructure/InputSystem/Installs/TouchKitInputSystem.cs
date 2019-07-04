@@ -1,35 +1,61 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Infrastructure.InputService
 {
-    public class TouchKitInputSystem : IInputSystem
+    public class TouchKitInputSystem : IInputSystem, IDisposable
     {
-        public event Action<Vector2> OnTap;
+        public bool IsTouching { get { return Input.touchCount > 0 || Input.GetMouseButton(0); } }
+        public event Action<Vector2> OnPanHandler;
+        public event Action<float> OnPinchHandler;
+        public event Action<float> OnRotationHandler;
 
-        private TKTapRecognizer recognizer;
+        private TKPanRecognizer panRecognizer;
+        private TKPinchRecognizer pinchRecognizer;
+        private TKRotationRecognizer rotationRecognizer;
 
         public TouchKitInputSystem()
         {
-            // TODO: Refactor - this creates a generic TapRecognizer that covers the screen
-            // This will be a problem once ui is intergrated
-            CreateTapRecognizer();
+            panRecognizer = new TKPanRecognizer();
+            pinchRecognizer = new TKPinchRecognizer();
+            rotationRecognizer = new TKRotationRecognizer();
+
+            panRecognizer.gestureRecognizedEvent += OnPan;
+            pinchRecognizer.gestureRecognizedEvent += OnPinch;
+            rotationRecognizer.gestureRecognizedEvent += OnRotation;
+
+            TouchKit.addGestureRecognizer(panRecognizer);
+            TouchKit.addGestureRecognizer(pinchRecognizer);
+            TouchKit.addGestureRecognizer(rotationRecognizer);
         }
 
-        private void CreateTapRecognizer()
+        private void OnPan(TKPanRecognizer recognizer)
         {
-            recognizer = new TKTapRecognizer();
-            recognizer.gestureRecognizedEvent += OnTapCall;
-            TouchKit.addGestureRecognizer(recognizer);
+            var delta = recognizer.deltaTranslation;
+            var handler = OnPanHandler;
+            if (handler == null) return;
+            handler(delta);
         }
 
-        private void OnTapCall(TKTapRecognizer tap)
+        private void OnPinch(TKPinchRecognizer recognizer)
         {
-            Vector2 pos = tap.touchLocation();
-            var handler = OnTap;
-            if (handler != null) handler(pos);
+            var delta = recognizer.deltaScale;
+            var handler = OnPinchHandler;
+            if (handler == null) return;
+            handler(delta);
+        }
+
+        private void OnRotation(TKRotationRecognizer recognizer)
+        {
+            var delta = recognizer.deltaRotation;
+            var handler = OnRotationHandler;
+            if (handler == null) return;
+            handler(delta);
+        }
+
+        public void Dispose()
+        {
+            TouchKit.removeAllGestureRecognizers();
         }
     }
 }
