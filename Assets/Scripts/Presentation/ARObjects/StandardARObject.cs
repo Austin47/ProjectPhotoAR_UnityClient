@@ -11,7 +11,7 @@ namespace Presentation.ARObjectSpawner
 
         public bool IsVisible { get { return rend.isVisible; } }
 
-        public Vector3 pos { get { return transform.position; } }
+        public Vector3 Pos { get { return transform.position; } }
 
         public void Configure(Vector3 pos, Texture2D texture)
         {
