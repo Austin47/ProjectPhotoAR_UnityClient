@@ -1,6 +1,6 @@
 # Unity AR Picture App
-[![Travis (.org) branch](https://img.shields.io/travis/austin47/ProjectPhotoAR_UnityClient/master.svg?label=master-build)](https://travis-ci.org/Austin47/ProjectPhotoAR_UnityClient)
-[![Travis (.org) branch](https://img.shields.io/travis/austin47/ProjectPhotoAR_UnityClient/development.svg?label=development-build)](https://travis-ci.org/Austin47/ProjectPhotoAR_UnityClient)
+[![Travis (.com) branch](https://img.shields.io/travis/com/austin47/ProjectPhotoAR_UnityClient/master.svg?label=master-build)](https://travis-ci.com/Austin47/ProjectPhotoAR_UnityClient)
+[![Travis (.com) branch](https://img.shields.io/travis/com/austin47/ProjectPhotoAR_UnityClient/development.svg?label=development-build)](https://travis-ci.com/Austin47/ProjectPhotoAR_UnityClient)
 
 [![GitHub release](https://img.shields.io/github/release-pre/austin47/ProjectPhotoAR_UnityClient.svg?label=pre-release)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases)
 [![Android Download](https://img.shields.io/badge/download-android-brightgreen.svg)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases/download/v0.1.0/v0.1.0.apk)
@@ -31,6 +31,6 @@ Currently, in an early prototype stage.
 - [NSubstitute](https://nsubstitute.github.io/)
 
 ### Sample Video:
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=UKmiPFul3UM
-" target="_blank"><img src="http://img.youtube.com/vi/UKmiPFul3UM/0.jpg" 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=E8wJoGIURWs
+" target="_blank"><img src="http://img.youtube.com/vi/E8wJoGIURWs/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="256" height="196" border="10" /></a>
