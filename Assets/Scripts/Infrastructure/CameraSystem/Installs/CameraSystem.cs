@@ -5,7 +5,7 @@ namespace Infrastructure.CameraService
     public class CameraSystem : ICameraSystem
     {
         private Camera cam;
-        public Camera Cam
+        private Camera Cam
         {
             get
             {
@@ -19,6 +19,11 @@ namespace Infrastructure.CameraService
         public Vector3 GetPointInFrontOfCamera(float distance)
         {
             return (Camera.main.transform.position + Camera.main.transform.forward) * distance;
+        }
+
+        public Vector3 ScreenToWorldPoint(Vector3 point)
+        {
+            return Cam.ScreenToWorldPoint(point);
         }
     }
 }

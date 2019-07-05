@@ -9,11 +9,6 @@ namespace Domain.ARObjectService
 {
     public class ARObjectTransformer : IARObjectTransformer, IInitializable, ITickable, IDisposable
     {
-        // move ARObject up and down based on access
-        // probably going to need to talk to input manager
-
-        // possibly use a TransformTrigger on the ARObject to trigger movability
-
         // scale object based on input manager
 
         // rotate object based on input manager
@@ -76,7 +71,7 @@ namespace Domain.ARObjectService
         public Vector3 GetPointAtTouchDistance(Vector3 touchPos, float distance)
         {
             touchPos.z = distance;
-            var worldPos = Camera.main.ScreenToWorldPoint(touchPos);
+            var worldPos = cameraSystem.ScreenToWorldPoint(touchPos);
 
             return worldPos;
         }

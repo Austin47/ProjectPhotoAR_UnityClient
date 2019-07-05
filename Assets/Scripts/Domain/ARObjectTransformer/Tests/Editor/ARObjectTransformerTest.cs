@@ -1,8 +1,10 @@
+using System;
 using Domain.ARObjectSpawnService;
 using Infrastructure.CameraService;
 using Infrastructure.InputService;
 using NSubstitute;
 using NUnit.Framework;
+using UnityEngine;
 using Zenject;
 
 namespace Domain.ARObjectService.Tests
@@ -65,13 +67,54 @@ namespace Domain.ARObjectService.Tests
         }
 
         [Test]
-        public void UpdateObjectPosition()
+        public void UpdateObjectPosition_Pass()
         {
             // Arrange
+            // Declare variables
+            var arObject = Substitute.For<IARObject>();
+            var arObjectPos = new Vector3(0, 0, 1);
+            var camPos = Vector3.zero;
+            var touchPos = new Vector2(0, 5);
+            var touchDis = new Vector3(touchPos.x, touchPos.y, 1);
+            var worldPos = new Vector3(4, 5, 9);
+            var expected = new Vector3(worldPos.x, arObjectPos.y, worldPos.z);
+            Vector2 blankVector;
+            // Set up function flow
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            arObject.Pos.Returns(arObjectPos);
+            cameraSystem.Pos.Returns(Vector3.zero);
+            inputSystem.GetTouchPos(out blankVector).Returns(x =>
+            {
+                x[0] = touchPos;
+                return true;
+            });
+            cameraSystem.ScreenToWorldPoint(touchDis).Returns(worldPos);
+
+            aRObjectTransformer.Initialize();
 
             // Act
+            inputSystem.OnPanHandler += Raise.Event<Action<Vector2>>(Vector2.zero);
+
 
             // Assert
+            arObject.Received().SetPosition(expected);
+        }
+
+        [Test]
+        public void UpdateObjectPosition_Fail()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Initialize();
+
+            // Act
+            aRObjectTransformer.Dispose();
+            inputSystem.OnPanHandler += Raise.Event<Action<Vector2>>(Vector2.zero);
+
+
+            // Assert
+            arObject.DidNotReceive().SetPosition(Arg.Any<Vector3>());
         }
     }
 }
