@@ -10,8 +10,8 @@ namespace Presentation.ARObjectSpawner
         private MeshRenderer rend;
 
         public bool IsVisible { get { return rend.isVisible; } }
-
         public Vector3 Pos { get { return transform.position; } }
+        public Vector3 Scale { get { return transform.localScale; } }
 
         public void Configure(Vector3 pos, Texture2D texture)
         {
@@ -26,6 +26,11 @@ namespace Presentation.ARObjectSpawner
         public void SetPosition(Vector3 pos)
         {
             transform.position = pos;
+        }
+
+        public void SetScale(Vector3 scale)
+        {
+            transform.localScale = scale;
         }
 
         private void FaceCamera()

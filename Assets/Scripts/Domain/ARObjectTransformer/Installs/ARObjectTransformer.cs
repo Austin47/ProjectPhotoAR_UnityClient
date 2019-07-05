@@ -9,9 +9,7 @@ namespace Domain.ARObjectService
 {
     public class ARObjectTransformer : IARObjectTransformer, IInitializable, ITickable, IDisposable
     {
-        // scale object based on input manager
-
-        // rotate object based on input manager
+        // TODO: AT - rotate object based on input manager
 
         public IARObject SelectedARObject { get; private set; }
 
@@ -30,6 +28,7 @@ namespace Domain.ARObjectService
         public void Initialize()
         {
             inputSystem.OnPanHandler += UpdateObjectPosition;
+            inputSystem.OnPinchHandler += UpdateObjectScale;
         }
 
         public void Dispose()
@@ -66,6 +65,12 @@ namespace Domain.ARObjectService
             inputSystem.GetTouchPos(out touchPoint);
             var newPos = GetPointAtTouchDistance(touchPoint, distance);
             SelectedARObject.SetPosition(new Vector3(newPos.x, SelectedARObject.Pos.y, newPos.z));
+        }
+
+        public void UpdateObjectScale(float delta)
+        {
+            if (SelectedARObject == null) return;
+            SelectedARObject.SetScale(SelectedARObject.Scale * (delta + 1));
         }
 
         public Vector3 GetPointAtTouchDistance(Vector3 touchPos, float distance)
