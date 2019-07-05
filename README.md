@@ -13,8 +13,10 @@ Currently, in an early prototype stage.
 <img src="/docs/images/v0.1.0_s1.jpg" width="256">
 
 ### Current Features
-- Placing AR objects
+- Placing objects
 - Taking pictures
+- Move and Scale objects
+- Objects auto aline to planes
 
 
 ### Future Features
@@ -22,7 +24,7 @@ Currently, in an early prototype stage.
 - Pictures automatically save to gallery
 - Sharing pictures
 - Reversing camera
-- Move AR objects
+- Rotate objects
 - iOS Support 
 
 ### Plugins
