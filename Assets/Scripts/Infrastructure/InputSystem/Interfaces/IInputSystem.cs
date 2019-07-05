@@ -9,6 +9,7 @@ namespace Infrastructure.InputService
         event Action<Vector2> OnPanHandler;
         event Action<float> OnPinchHandler;
         event Action<float> OnRotationHandler;
+        bool GetTouchPos(out Vector2 pos);
     }
 }
 

@@ -29,6 +29,11 @@ namespace Infrastructure.InputService
             TouchKit.addGestureRecognizer(rotationRecognizer);
         }
 
+        public void Dispose()
+        {
+            TouchKit.removeAllGestureRecognizers();
+        }
+
         private void OnPan(TKPanRecognizer recognizer)
         {
             var delta = recognizer.deltaTranslation;
@@ -53,9 +58,13 @@ namespace Infrastructure.InputService
             handler(delta);
         }
 
-        public void Dispose()
+        public bool GetTouchPos(out Vector2 pos)
         {
-            TouchKit.removeAllGestureRecognizers();
+            pos = new Vector2();
+            if (!IsTouching) return false;
+
+            pos = Input.touchCount > 0 ? Input.touches[0].position : (Vector2) Input.mousePosition;
+            return true;
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using Domain.ARObjectSpawnService;
-using Infrastructure.Common;
+using Infrastructure.CameraService;
 using Infrastructure.InputService;
 using UnityEngine;
 using Zenject;
@@ -18,14 +18,18 @@ namespace Domain.ARObjectService
 
         // rotate object based on input manager
 
-        private IARObject selectedARObject;
-        private Vector3 selectedARObjectStartPos;
+        public IARObject SelectedARObject { get; private set; }
+
         private IInputSystem inputSystem;
+        private ICameraSystem cameraSystem;
 
         [Inject]
-        private void Construct(IInputSystem inputSystem)
+        private void Construct(
+            ICameraSystem cameraSystem, 
+            IInputSystem inputSystem)
         {
             this.inputSystem = inputSystem;
+            this.cameraSystem = cameraSystem;
         }
 
         public void Initialize()
@@ -49,27 +53,27 @@ namespace Domain.ARObjectService
 
         public void SetSelectedARObject(IARObject aRObject)
         {
-            if (aRObject == null || selectedARObject != null) return;
-            selectedARObject = aRObject;
-            selectedARObjectStartPos = selectedARObject.Pos;
+            if (aRObject == null || SelectedARObject != null) return;
+            SelectedARObject = aRObject;
         }
 
         public void UnselectedARObject()
         {
-            selectedARObject = null;
+            SelectedARObject = null;
         }
 
         public void UpdateObjectPosition(Vector2 delta)
         {
-            if (selectedARObject == null) return;
-            var cam = Camera.main.transform.position;
-            var direction = Utils.GetDirectionBetweenVectors(cam, selectedARObjectStartPos);
-            var distance = Vector3.Distance(cam, selectedARObject.Pos);
-            var newPos = GetPointAtTouchDistance(Input.touches[0].position, direction, distance);
-            selectedARObject.SetPosition(new Vector3(newPos.x, selectedARObject.Pos.y, newPos.z));
+            if (SelectedARObject == null) return;
+            var camPos = cameraSystem.Pos;
+            var distance = Vector3.Distance(camPos, SelectedARObject.Pos);
+            Vector2 touchPoint;
+            inputSystem.GetTouchPos(out touchPoint);
+            var newPos = GetPointAtTouchDistance(touchPoint, distance);
+            SelectedARObject.SetPosition(new Vector3(newPos.x, SelectedARObject.Pos.y, newPos.z));
         }
 
-        public Vector3 GetPointAtTouchDistance(Vector3 touchPos, Vector3 direction, float distance)
+        public Vector3 GetPointAtTouchDistance(Vector3 touchPos, float distance)
         {
             touchPos.z = distance;
             var worldPos = Camera.main.ScreenToWorldPoint(touchPos);
