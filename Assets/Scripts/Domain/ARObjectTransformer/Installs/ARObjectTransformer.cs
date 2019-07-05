@@ -34,6 +34,7 @@ namespace Domain.ARObjectService
         public void Dispose()
         {
             inputSystem.OnPanHandler -= UpdateObjectPosition;
+            inputSystem.OnPinchHandler -= UpdateObjectScale;
         }
 
         public void Tick()

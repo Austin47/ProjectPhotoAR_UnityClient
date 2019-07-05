@@ -67,6 +67,36 @@ namespace Domain.ARObjectService.Tests
         }
 
         [Test]
+        public void Tick_Pass()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            inputSystem.IsTouching.Returns(true);
+
+            // Act
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Tick();
+
+            // Assert
+            Assert.AreEqual(arObject, aRObjectTransformer.SelectedARObject);
+        }
+
+        [Test]
+        public void Tick_Fail()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            inputSystem.IsTouching.Returns(false);
+
+            // Act
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Tick();
+
+            // Assert
+            Assert.AreNotEqual(arObject, aRObjectTransformer.SelectedARObject);
+        }
+
+        [Test]
         public void UpdateObjectPosition_Pass()
         {
             // Arrange
@@ -115,6 +145,38 @@ namespace Domain.ARObjectService.Tests
 
             // Assert
             arObject.DidNotReceive().SetPosition(Arg.Any<Vector3>());
+        }
+
+        [Test]
+        public void UpdateObjectScale_Pass()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Initialize();
+
+            // Act
+            inputSystem.OnPinchHandler += Raise.Event<Action<float>>(0.0f);
+
+            // Assert
+            arObject.Received().SetScale(Arg.Any<Vector3>());
+        }
+
+        [Test]
+        public void UpdateObjectScale_Fail()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Initialize();
+
+            // Act
+            aRObjectTransformer.Dispose();
+            inputSystem.OnPinchHandler += Raise.Event<Action<float>>(0.0f);
+
+
+            // Assert
+            arObject.DidNotReceive().SetScale(Arg.Any<Vector3>());
         }
     }
 }
