@@ -3,7 +3,7 @@
 [![Travis (.com) branch](https://img.shields.io/travis/com/austin47/ProjectPhotoAR_UnityClient/development.svg?label=development-build)](https://travis-ci.com/Austin47/ProjectPhotoAR_UnityClient)
 
 [![GitHub release](https://img.shields.io/github/release-pre/austin47/ProjectPhotoAR_UnityClient.svg?label=pre-release)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases)
-[![Android Download](https://img.shields.io/badge/download-android-brightgreen.svg)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases/download/v0.1.0/v0.1.0.apk)
+[![Android Download](https://img.shields.io/badge/download-android-brightgreen.svg)](https://github.com/Austin47/ProjectPhotoAR_UnityClient/releases/download/v0.2.0/v0.2.0.apk)
 
 [![Unity Version](https://img.shields.io/badge/unity%20version%20-2019.1.6f1-blue.svg)](https://unity3d.com/unity/whats-new/2019.1.6)
 
