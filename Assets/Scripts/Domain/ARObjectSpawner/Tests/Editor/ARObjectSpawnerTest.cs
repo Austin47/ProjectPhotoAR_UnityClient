@@ -67,8 +67,6 @@ namespace Domain.ARObjectSpawnService.Tests
         public void SpawnAndConfigure()
         {
             // Arrange
-            var objectConfigured = false;
-
             // Act
             aRObjectSpawner.Spawn(Arg.Any<Texture2D>());
 
