@@ -18,7 +18,7 @@ namespace Domain.ARObjectService
 
         [Inject]
         private void Construct(
-            ICameraSystem cameraSystem, 
+            ICameraSystem cameraSystem,
             IInputSystem inputSystem)
         {
             this.inputSystem = inputSystem;
@@ -37,6 +37,7 @@ namespace Domain.ARObjectService
         {
             inputSystem.OnPanHandler -= UpdateObjectPosition;
             inputSystem.OnPinchHandler -= UpdateObjectScale;
+            inputSystem.OnRotationHandler -= UpdateObjectRotation;
         }
 
         public void Tick()

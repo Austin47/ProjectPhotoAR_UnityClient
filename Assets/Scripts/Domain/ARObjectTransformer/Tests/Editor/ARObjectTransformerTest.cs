@@ -178,6 +178,38 @@ namespace Domain.ARObjectService.Tests
             // Assert
             arObject.DidNotReceive().SetScale(Arg.Any<Vector3>());
         }
+
+        [Test]
+        public void UpdateObjectRotation_Pass()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Initialize();
+
+            // Act
+            inputSystem.OnRotationHandler += Raise.Event<Action<float>>(0.0f);
+
+            // Assert
+            arObject.Received().RotateZ(Arg.Any<float>());
+        }
+
+        [Test]
+        public void UpdateObjectRotation_Fail()
+        {
+            // Arrange
+            var arObject = Substitute.For<IARObject>();
+            aRObjectTransformer.SetSelectedARObject(arObject);
+            aRObjectTransformer.Initialize();
+
+            // Act
+            aRObjectTransformer.Dispose();
+            inputSystem.OnRotationHandler += Raise.Event<Action<float>>(0.0f);
+
+
+            // Assert
+            arObject.DidNotReceive().RotateZ(Arg.Any<float>());
+        }
     }
 }
 
