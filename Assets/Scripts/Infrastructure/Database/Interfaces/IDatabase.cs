@@ -9,6 +9,8 @@ namespace Infrastructure.DatabaseService
         void LoadTextureFromStringmAssets(string url, Action<Texture2D> callback);
         void LoadTextureFromLocalApp(string url, Action<Texture2D> callback);
         void LoadTextureFromGallery(string url, Action<Texture2D> callback);
+        void DeleteTextureFromLocalApp(string url);
+        bool TextureFromLocalAppExist(string url);
         void SavePathToLocal(string url);
     }
 }

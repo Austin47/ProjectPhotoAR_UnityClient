@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Infrastructure.Common
 {
-    
+
 
     public class FilePath
     {
@@ -13,7 +13,7 @@ namespace Infrastructure.Common
             get
             {
 #if UNITY_EDITOR
-            return $"{FilesHeader}{Application.streamingAssetsPath}";
+                return $"{FilesHeader}{Application.streamingAssetsPath}";
 #elif UNITY_ANDROID
             return Application.streamingAssetsPath;
 #else
@@ -27,9 +27,23 @@ namespace Infrastructure.Common
             get
             {
 #if UNITY_EDITOR
-            return $"{FilesHeader}{Application.persistentDataPath}";
+                return $"{FilesHeader}{LocalNoHeader}";
 #elif UNITY_ANDROID
-            return $"{FilesHeader}{Application.persistentDataPath}";
+            return $"{FilesHeader}{LocalNoHeader}";
+#else
+            return LocalNoHeader;
+#endif
+            }
+        }
+
+        public static string LocalNoHeader
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return Application.persistentDataPath;
+#elif UNITY_ANDROID
+            return Application.persistentDataPath;
 #else
             return Application.persistentDataPath;
 #endif

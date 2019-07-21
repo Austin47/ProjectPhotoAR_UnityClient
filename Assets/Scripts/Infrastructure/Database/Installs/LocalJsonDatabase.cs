@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using Infrastructure.Common;
 using Infrastructure.CoroutineRunner;
 using Infrastructure.PermissionService;
@@ -36,6 +37,20 @@ namespace Infrastructure.DatabaseService
         {
             string path = $"{FilePath.StreamingAssets}/{url}";
             coroutineRunner.RunCoroutine(GetTexture(path, callback));
+        }
+
+        public bool TextureFromLocalAppExist(string url)
+        {
+            string path = $"{FilePath.LocalNoHeader}/{url}";
+            Debug.Log($"TextureFromLocalAppExist at path - { path } - and is { File.Exists(path)}");
+            return File.Exists(path);
+        }
+
+        public void DeleteTextureFromLocalApp(string url)
+        {
+            if (!TextureFromLocalAppExist(url)) return;
+            string path = $"{FilePath.LocalNoHeader}/{url}";
+            File.Delete(path);
         }
 
         public void LoadTextureFromLocalApp(string url, Action<Texture2D> callback)
