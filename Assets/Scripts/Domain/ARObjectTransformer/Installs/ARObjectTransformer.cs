@@ -29,7 +29,9 @@ namespace Domain.ARObjectService
         {
             inputSystem.OnPanHandler += UpdateObjectPosition;
             inputSystem.OnPinchHandler += UpdateObjectScale;
+            inputSystem.OnRotationHandler += UpdateObjectRotation;
         }
+
 
         public void Dispose()
         {
@@ -72,6 +74,12 @@ namespace Domain.ARObjectService
         {
             if (SelectedARObject == null) return;
             SelectedARObject.SetScale(SelectedARObject.Scale * (delta + 1));
+        }
+
+        private void UpdateObjectRotation(float delta)
+        {
+            if (SelectedARObject == null) return;
+            SelectedARObject.RotateZ(delta);
         }
 
         public Vector3 GetPointAtTouchDistance(Vector3 touchPos, float distance)

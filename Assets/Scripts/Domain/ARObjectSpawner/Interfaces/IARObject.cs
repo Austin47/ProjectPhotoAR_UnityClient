@@ -10,6 +10,7 @@ namespace Domain.ARObjectSpawnService
         void Configure(Vector3 pos, Texture2D text);
         void SetPosition(Vector3 pos);
         void SetScale(Vector3 scale);
+        void RotateZ(float delta);
     }
 }
 

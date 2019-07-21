@@ -23,6 +23,11 @@ namespace Presentation.ARObjectSpawner
             FaceCamera();
         }
 
+        public void RotateZ(float delta)
+        {
+            transform.Rotate(new Vector3(0, delta, 0));
+        }
+
         public void SetPosition(Vector3 pos)
         {
             transform.position = pos;
