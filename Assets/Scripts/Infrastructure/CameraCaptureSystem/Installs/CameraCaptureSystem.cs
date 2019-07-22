@@ -8,6 +8,8 @@ namespace Infrastructure.CCSystem
 {
     public class CameraCaptureSystem : ICameraCaptureSystem
     {
+        private int jobCount;
+
         private Canvas canvas;
         private ICoroutineRunner coroutineRunner;
         private IDatabase database;
@@ -31,13 +33,15 @@ namespace Infrastructure.CCSystem
         {
             // HACK: To make ui not show up in ScreenCapture we temporarily hide the canvas
             // TODO: AT - Not very clean, need to replace
+            jobCount++;
             canvas.enabled = false;
-            var fileName = "temp.png";
+            var fileName = $"temp-{jobCount}.png";
             database.DeleteTextureFromLocalApp(fileName);
             yield return new WaitForEndOfFrame();
             ScreenCapture.CaptureScreenshot(fileName);
             canvas.enabled = true;
             yield return new WaitUntil(() => database.TextureFromLocalAppExist(fileName));
+            jobCount--;
             callback(fileName);
         }
     }
