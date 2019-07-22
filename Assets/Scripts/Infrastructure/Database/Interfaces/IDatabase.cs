@@ -11,6 +11,7 @@ namespace Infrastructure.DatabaseService
         void LoadTextureFromGallery(string url, Action<Texture2D> callback);
         void DeleteTextureFromLocalApp(string url);
         bool TextureFromLocalAppExist(string url);
+        int GetLocalTexterCount();
         void SavePathToLocal(string url);
     }
 }

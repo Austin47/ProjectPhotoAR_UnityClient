@@ -73,6 +73,12 @@ namespace Infrastructure.DatabaseService
             //throw new NotImplementedException();
         }
 
+        public int GetLocalTexterCount()
+        {
+            DirectoryInfo di = new DirectoryInfo(FilePath.LocalNoHeader);
+            return di.GetFiles("*.png").Length;
+        }
+
         private IEnumerator LoadAsync<T>(string url, Action<T> callback)
         {
             permissions.CheckReadStorage();
