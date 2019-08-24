@@ -914,6 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1515cb4f0d11348d0b22e0f5ad3f216d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 228333210}
 --- !u!222 &228333212
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1132,6 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1515cb4f0d11348d0b22e0f5ad3f216d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 283796350}
 --- !u!222 &283796352
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2438,7 +2440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608c69605ae994d538973573f5b7c424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xMax: 3760
+  xMin: -2660
   parent: {fileID: 618077030}
+  gizmosRadius: 50
 --- !u!114 &618077034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2526,6 +2531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1515cb4f0d11348d0b22e0f5ad3f216d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 624953407}
 --- !u!222 &624953409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4173,7 +4179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -0.18487549}
+  m_AnchoredPosition: {x: 0, y: -0.18487549}
   m_SizeDelta: {x: 0, y: 0.36968994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1168345754
@@ -5735,6 +5741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1515cb4f0d11348d0b22e0f5ad3f216d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 1518704503}
 --- !u!222 &1518704505
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6160,7 +6167,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87100005, y: 0.735}
   m_AnchorMax: {x: 0.9322501, y: 0.8734493}
-  m_AnchoredPosition: {x: 0.2999878, y: 1}
+  m_AnchoredPosition: {x: 0.30004883, y: 1}
   m_SizeDelta: {x: -2.5999756, y: -1.5999756}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850996404
@@ -6727,6 +6734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1515cb4f0d11348d0b22e0f5ad3f216d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 2072105477}
 --- !u!222 &2072105479
 CanvasRenderer:
   m_ObjectHideFlags: 0
